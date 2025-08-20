@@ -416,6 +416,8 @@ PdfLib does not give you access to "raw" pdf objects. This can be a problem if y
 ## Overview of PdfLib's folder hierarchy
 ![classes](/img/classes.png?raw=true)
 
+As you can see, everything inherits from PdfItem. All objects inherit from PdfObject, and utility classes inherit Elements or ItemsArray (depending on whenever they wrap a dictionary or array).
+
 **Compile**: Pdf pages have command streams. The compile namespace is for classes used to make sense of these command streams. There are two "compilers" in there. One experimental compiler and one mature. The mature compiler is more a tokenizer than a compiler.
 
 **Compose**: Namespace for classes used for creating PDF documents. It's most developed class is currently chTextBox, which is useful for laying out text. It's missing features, such as indentation, and text flowing around images (for now the image must be on the line).
@@ -431,10 +433,6 @@ PdfLib does not give you access to "raw" pdf objects. This can be a problem if y
 **Util**: A collection of utility classes.
 
 **Write**: Code for writing PDF documents to disk
-
-## Overview over PdfLib's class hierarchy for PDF files
-
-As you can see, everything inherits from PdfItem. All objects inherit from PdfObject, and utility classes inherit Elements or ItemsArray (depending on whenever they wrap a dictionary or array).
 
 ## Parsing a page's contents
 Pdf pages contains images, figures, and text. When a pdf viewer draws a page, it does this by executing commands found in the "Contents" property of the page. You can think of these commands as a simple programing language.
