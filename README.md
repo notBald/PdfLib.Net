@@ -45,17 +45,19 @@ PdfLib can be used for:
 
 ## Licence
 
- How is all this code licensed? Well, it's a bit of a mess.
+[See this file for more licences](https://github.com/notBald/PdfLib.Net/blob/main/src/Licences.txt)
 
- Anything I've written goes into the public domain. Use the code as you please, however liability falls onto you, not me. There's also no need to credit me.
+How is all this code licensed? Well, it's a bit of a mess.
 
- But not everything is written by me:
+Anything I've written goes into the public domain. Use the code as you please, however liability falls onto you, not me. There's also no need to credit me.
+
+But not everything is written by me:
   * zlib.net – BSD like attribution license. 
   * OpenJpeg.net - BSD like attribution license.
   * LibJpeg.net - BSD like attribution license.
   * JBig2.net – BSD like attribution license.
 
-  In addition, in the PdfLib.Util namspace there is a few classes I'm unsure of the licence:
+In addition, in the PdfLib.Util namspace there is a few classes I'm unsure of the licence:
   * FlattenHierarchyProxy (Not used by the libary, can be deleted.)
   * MultiStream (Used to combine contents streams into a single stream)
   * WeakReference (Used to implement WeakCache and WeakList)
@@ -68,7 +70,7 @@ Finally, there's fourteen fonts that aren't outright required, but nice to have.
  * SIL OPEN FONT LICENSE by (URW)++ Design & Development.
  * GNU GENERAL PUBLIC LICENSE Version 2 by (URW)++ Design & Development.
 
- By default, the SIL fonts are used. The GPL fonts are older and has smaller files, probably because they are exactly the same fonts with less glyphs. This does not matter as these glyphs are not used anyway. To switch what fonts are used, simply unzip into the Res/Font/cff directory
+By default, the SIL fonts are used. The GPL fonts are older and has smaller files, probably because they are exactly the same fonts with less glyphs. This does not matter as these glyphs are not used anyway. To switch what fonts are used, simply unzip into the Res/Font/cff directory.
 
 ## History
 
