@@ -413,10 +413,11 @@ This library is laid out in a somewhat similar fashion as PdfSharp.
 
 PdfLib does not give you access to "raw" pdf objects. This can be a problem if you wish to do something unusual, like making a corrupt or non-conformant PDF file.
 
-## Overview of PdfLib's folder hierarchy
 ![classes](/img/classes.png?raw=true)
 
 As you can see, everything inherits from PdfItem. All objects inherit from PdfObject, and utility classes inherit Elements or ItemsArray (depending on whenever they wrap a dictionary or array).
+
+## Overview of PdfLib's folder hierarchy
 
 **Compile**: Pdf pages have command streams. The compile namespace is for classes used to make sense of these command streams. There are two "compilers" in there. One experimental compiler and one mature. The mature compiler is more a tokenizer than a compiler.
 
