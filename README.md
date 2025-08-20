@@ -558,6 +558,9 @@ This ultimately means that documents with faulty postscript will render fine in 
 In this example, we will open a pdf document and iterate over the document's images and save them to disk.
 
 ```
+using PdfLib;
+using PdfLib.Img.Png;
+
 // A string with the file path and name of the PdfDocument
 var pdf_file = "c:/temp/test.pdf";
 
@@ -597,18 +600,23 @@ using(var pdf = PdfFile.OpenRead(pdf_file))
     }
     else
     {
-      // Saves all other images as 32-bit png images.
+      // Saves all other images as png images.
       var ext = "png";
       var sf = string.Format("{0}{1:00}.{2}", folder, ++c, ext);
       using (FileStream fs = File.Open(sf, FileMode.Create, FileAccess.Write))
       {
         // The plain DecodeImage function will spit out an image that 
         // conforms to how the image should look in a pdf viewer. 
-        var decoded_image = rImage.DecodeImage(image);
+        //var decoded_image = rImage.DecodeImage(image);
 
-        PngBitmapEncoder png = new PngBitmapEncoder();
-        png.Frames.Add(BitmapFrame.Create(decoded_image));
-        png.Save(fs);
+		//We can now save the image as we please:
+        //PngBitmapEncoder png = new PngBitmapEncoder();
+        //png.Frames.Add(BitmapFrame.Create(decoded_image));
+        //png.Save(fs);
+
+		//Alternativly we can use the built in PNG encoder in PdfLib:
+        var a_png_img = PngConverter.Convert(image);
+		a_png_img.WriteTo(fs);
       }
     }
   }
@@ -618,6 +626,9 @@ using(var pdf = PdfFile.OpenRead(pdf_file))
 ## Creating a new Pdf document
 
 ```
+using PdfLib.Compose;
+using PdfLib.Write;
+
 //You don't need to create the document first, but this way saves
 //us the trouble of adding pages to the document later, as now we
 //can call NewPage.
@@ -645,6 +656,8 @@ pdf.WriteTo("c:/temp/hello.pdf");
 ## Rotating pages in an existing document
 
 ```
+using PdfLib;
+
 // A string with the file path and name of the PdfDocument
 var pdf_file = "c:/temp/test.pdf";
 
