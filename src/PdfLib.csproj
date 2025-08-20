@@ -1,0 +1,814 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2A03820F-857E-4BA7-A508-A9CA31FD1F81}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PdfLib</RootNamespace>
+    <AssemblyName>PdfLib</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CELESTE;LONGPDF;NEW_IFontFactory;MTSAFE;NET461</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;LONGPDF;NEW_IFontFactory;MTSAFE;NET461</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants Condition=" !$(DefineConstants.Contains(';NET')) ">$(DefineConstants);$(TargetFrameworkVersion.Replace("v", "NET").Replace(".", ""))</DefineConstants>
+    <DefineConstants Condition=" $(DefineConstants.Contains(';NET')) ">$(DefineConstants.Remove($(DefineConstants.LastIndexOf(";NET"))));$(TargetFrameworkVersion.Replace("v", "NET").Replace(".", ""))</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;LONGPDF;NEW_IFontFactory;NET40;MTSAFE;CELESTE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;LONGPDF;NEW_IFontFactory;MTSAFE;NET461</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;LONGPDF;NEW_IFontFactory;MTSAFE;NET40</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;LONGPDF;NEW_IFontFactory;MTSAFE;</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WinXP|AnyCPU'">
+    <OutputPath>bin\WinXP\</OutputPath>
+    <DefineConstants>TRACE;LONGPDF;NEW_IFontFactory;MTSAFE;NET40</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WinXP|x64'">
+    <OutputPath>bin\x64\WinXP\</OutputPath>
+    <DefineConstants>TRACE;LONGPDF;NEW_IFontFactory;MTSAFE;NET461</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WinXP|x86'">
+    <OutputPath>bin\x86\WinXP\</OutputPath>
+    <DefineConstants>TRACE;LONGPDF;NEW_IFontFactory;MTSAFE;</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LibJpeg.NET, Version=1.2.300.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LibJPEG.net\sources\LibJpeg\bin\Release\LibJpeg.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenJpeg2.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenJpeg2.net\bin\Release\OpenJpeg2.net.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Compile\Analyze\AnalyzeBlock.cs" />
+    <Compile Include="Compile\Analyze\AnalyzeCMD.cs" />
+    <Compile Include="Compile\Analyze\PdfState.cs" />
+    <Compile Include="Compile\Analyze\SingleImage.cs" />
+    <Compile Include="Compile\CompiledPage.cs" />
+    <Compile Include="Compile\PdfAnalyze.cs" />
+    <Compile Include="Compile\PdfContentAnalyze.cs" />
+    <Compile Include="Compile\WPFCompiler.cs" />
+    <Compile Include="Compile\WPFPage.cs" />
+    <Compile Include="Compose\Font\MCFFFont.cs" />
+    <Compile Include="Compose\Layout\cImage.cs" />
+    <Compile Include="Compose\Layout\cText.cs" />
+    <Compile Include="Compose\Layout\cTextSpacing.cs" />
+    <Compile Include="Compose\Layout\Internal\cBox.cs" />
+    <Compile Include="Compose\cBrush.cs" />
+    <Compile Include="Compose\cDraw.cs" />
+    <Compile Include="Compose\cFont.cs" />
+    <Compile Include="Compose\cLinearGradientBrush.cs" />
+    <Compile Include="Compose\cPattern.cs" />
+    <Compile Include="Compose\Font\cBuiltInFont.cs" />
+    <Compile Include="Compose\Font\cBuiltInT1.cs" />
+    <Compile Include="Compose\Font\chMTX.cs" />
+    <Compile Include="Compose\Font\cWrapFont.cs" />
+    <Compile Include="Compose\Font\MBuiltInFont.cs" />
+    <Compile Include="Compose\Font\MeasureFont.cs" />
+    <Compile Include="Compose\Font\MTTFont.cs" />
+    <Compile Include="Compose\Font\PSCMap.cs" />
+    <Compile Include="Compose\Font\cTTFont.cs" />
+    <Compile Include="Compose\Font\CreateTTFont.cs" />
+    <Compile Include="Compose\cColor.cs" />
+    <Compile Include="Compose\Layout\cDiv.cs" />
+    <Compile Include="Compose\Layout\cForm.cs" />
+    <Compile Include="Compose\Layout\Internal\cFigureDraw.cs" />
+    <Compile Include="Compose\Layout\Internal\chbLineWrapper.cs" />
+    <Compile Include="Compose\Layout\Internal\chbParagraph.cs" />
+    <Compile Include="Compose\Layout\Internal\cLayout.cs" />
+    <Compile Include="Compose\Layout\Internal\chbLine.cs" />
+    <Compile Include="Compose\Layout\Internal\cLineMeasure.cs" />
+    <Compile Include="Compose\Layout\cRoot.cs" />
+    <Compile Include="Compose\Layout\cSize.cs" />
+    <Compile Include="Compose\Layout\cStyle.cs" />
+    <Compile Include="Compose\Layout\cTable.cs" />
+    <Compile Include="Compose\Layout\cTD.cs" />
+    <Compile Include="Compose\Layout\cTextArea.cs" />
+    <Compile Include="Compose\Layout\Enums.cs" />
+    <Compile Include="Compose\Layout\Internal\cNode.cs" />
+    <Compile Include="Compose\Layout\Internal\cTextStat.cs" />
+    <Compile Include="Compose\Layout\cTR.cs" />
+    <Compile Include="Compose\Layout\Exceptions.cs" />
+    <Compile Include="Compose\Text\chDocument.cs" />
+    <Compile Include="Compose\Text\chLineWrapper.cs" />
+    <Compile Include="Compose\Text\chParagraph.cs" />
+    <Compile Include="Compose\Text\chTBChain.cs" />
+    <Compile Include="Compose\Text\chTextBox.cs" />
+    <Compile Include="Compose\Text\chTextLayout.cs" />
+    <Compile Include="Compose\Text\MinorStuff.cs" />
+    <Compile Include="Compose\Text\oldTextBox.cs" />
+    <Compile Include="Compose\Text\StyleRange.cs" />
+    <Compile Include="Compose\Text\TextRenderer.cs" />
+    <Compile Include="Encryption\CRC32.cs" />
+    <Compile Include="Img\Celeste.cs" />
+    <Compile Include="Img\Internal\NeuQuant.cs" />
+    <Compile Include="Img\Internal\QWU\Box.cs" />
+    <Compile Include="Img\Internal\QWU\ColorQuantizerResult.cs" />
+    <Compile Include="Img\Internal\QWU\IColorQuantizer.cs" />
+    <Compile Include="Img\Internal\QWU\WuAlphaColorQuantizer.cs" />
+    <Compile Include="Img\Internal\QWU\WuColorQuantizer.cs" />
+    <Compile Include="Img\Internal\WUQuant.cs" />
+    <Compile Include="Pdf\Annotation\PdfAnnotation.cs" />
+    <Compile Include="Pdf\Annotation\PdfAnnotBorder.cs" />
+    <Compile Include="Pdf\Annotation\PdfAppearanceDictionary.cs" />
+    <Compile Include="Pdf\Annotation\PdfASDict.cs" />
+    <Compile Include="Pdf\Annotation\PdfGeometricAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfPolyAnnot.cs" />
+    <Compile Include="Pdf\ColorSpace\GrayColor.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\CoordReader.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfCoonsShading.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfGouraudShading.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfStreamShading.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\TriangleCreator.cs" />
+    <Compile Include="Pdf\Function\InputFunctions.cs" />
+    <Compile Include="Pdf\Encryption\EncryptionModes.cs" />
+    <Compile Include="Pdf\Encryption\PdfCryptFilter.cs" />
+    <Compile Include="Pdf\Encryption\StandarSecurityHandler.cs" />
+    <Compile Include="Pdf\Internal\PdfLong.cs" />
+    <Compile Include="Pdf\Primitives\PdfPageLayoutEnum.cs" />
+    <Compile Include="Pdf\Primitives\xSegCollection.cs" />
+    <Compile Include="Pdf\Primitives\xStructsF.cs" />
+    <Compile Include="Pdf\Transparency\IMask.cs" />
+    <Compile Include="Pdf\Transparency\PdfAlphaMask.cs" />
+    <Compile Include="Pdf\Transparency\PdfBlendModes.cs" />
+    <Compile Include="Pdf\Transparency\PdfGroup.cs" />
+    <Compile Include="Pdf\Transparency\PdfLuminosityMask.cs" />
+    <Compile Include="Pdf\Transparency\PdfNoMask.cs" />
+    <Compile Include="Pdf\Transparency\PdfSoftMask.cs" />
+    <Compile Include="Pdf\Encryption\PdfUseAccessPermissions.cs" />
+    <Compile Include="Pdf\Encryption\PdfStandarSecuretyHandler.cs" />
+    <Compile Include="Pdf\Form\Justification.cs" />
+    <Compile Include="Pdf\Form\PdfInteractiveForm.cs" />
+    <Compile Include="Pdf\Form\PdfFormField.cs" />
+    <Compile Include="Pdf\Internal\Minor\NameTree.cs" />
+    <Compile Include="Pdf\Internal\NameArray.cs" />
+    <Compile Include="Pdf\Internal\PdfAction.cs" />
+    <Compile Include="Pdf\Internal\PdfDestination.cs" />
+    <Compile Include="Pdf\Internal\PdfEmbeddedFile.cs" />
+    <Compile Include="Pdf\Internal\PdfInfo.cs" />
+    <Compile Include="Pdf\Internal\PdfNameDictionary.cs" />
+    <Compile Include="Pdf\Internal\PdfNameTree.cs" />
+    <Compile Include="Pdf\PdfOutlineItem.cs" />
+    <Compile Include="Pdf\Optional\OptionalContentMembership.cs" />
+    <Compile Include="Pdf\Optional\PdfOptCreatorInfo.cs" />
+    <Compile Include="Pdf\Optional\OptionalContent.cs" />
+    <Compile Include="Pdf\Optional\OptionalContentGroup.cs" />
+    <Compile Include="Pdf\Optional\PdfOptExport.cs" />
+    <Compile Include="Pdf\Optional\PdfOptLanguage.cs" />
+    <Compile Include="Pdf\Optional\PdfOptPageElement.cs" />
+    <Compile Include="Pdf\Optional\PdfOptPrint.cs" />
+    <Compile Include="Pdf\Optional\PdfOptUsage.cs" />
+    <Compile Include="Pdf\Optional\PdfOptUser.cs" />
+    <Compile Include="Pdf\Optional\PdfOptView.cs" />
+    <Compile Include="Pdf\Optional\PdfOptZoom.cs" />
+    <Compile Include="Pdf\Transparency\PdfTransparencyGroup.cs" />
+    <Compile Include="Img\Png\Enums.cs" />
+    <Compile Include="Img\Png\PngConverter.cs" />
+    <Compile Include="Img\Png\PngImage.cs" />
+    <Compile Include="Read\CFF\CID_Font.cs" />
+    <Compile Include="Read\CFF\EncConst.cs" />
+    <Compile Include="Read\CFF\FontDescFinder.cs" />
+    <Compile Include="Read\CFF\FontDescriptor.cs" />
+    <Compile Include="Read\CFF\GlyphParser.cs" />
+    <Compile Include="Read\CFF\Header.cs" />
+    <Compile Include="Read\CFF\Index.cs" />
+    <Compile Include="Read\CFF\Parser.cs" />
+    <Compile Include="Read\CFF\PrivateDICT.cs" />
+    <Compile Include="Read\CFF\sg_matrix.cs" />
+    <Compile Include="Read\CFF\SizePos.cs" />
+    <Compile Include="Read\CFF\TopDICT.cs" />
+    <Compile Include="Read\IParser.cs" />
+    <Compile Include="Read\Parser\DecryptParser.cs" />
+    <Compile Include="Read\rRange.cs" />
+    <Compile Include="Read\TrueType\KernTable.cs" />
+    <Compile Include="Read\TrueType\TrueTypeCollection.cs" />
+    <Compile Include="Read\TrueType\WriteFont.cs" />
+    <Compile Include="Compose\Text\chLine.cs" />
+    <Compile Include="Compose\cRenderState.cs" />
+    <Compile Include="Encryption\RC4.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Pdf\Annotation\Enums.cs" />
+    <Compile Include="Pdf\Annotation\PdfMarkupAnnotation.cs" />
+    <Compile Include="Pdf\Annotation\PdfAppearanceStreams.cs" />
+    <Compile Include="Pdf\Annotation\PdfCaretAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfCircleAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfFileAttachmentAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfFreeTextAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfInkAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfLineAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfPopupAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfSquareAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfStampAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfTextAnnot.cs" />
+    <Compile Include="Pdf\Annotation\PdfUnkownAnnot.cs" />
+    <Compile Include="Pdf\ColorSpace\CalGrayCS.cs" />
+    <Compile Include="Pdf\ColorSpace\CalRGBCS.cs" />
+    <Compile Include="Pdf\ColorSpace\DblColor.cs" />
+    <Compile Include="Pdf\ColorSpace\DeviceNCS.cs" />
+    <Compile Include="Pdf\ColorSpace\ICCBased.cs" />
+    <Compile Include="Pdf\ColorSpace\IntColor.cs" />
+    <Compile Include="Pdf\ColorSpace\DeviceCMYK.cs" />
+    <Compile Include="Pdf\ColorSpace\ColorConverter.cs" />
+    <Compile Include="Pdf\ColorSpace\IColorSpace.cs" />
+    <Compile Include="Pdf\ColorSpace\IndexedCS.cs" />
+    <Compile Include="Pdf\ColorSpace\JPXCS.cs" />
+    <Compile Include="Pdf\ColorSpace\LabCS.cs" />
+    <Compile Include="Pdf\ColorSpace\PatternCS.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfFunctionShading.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfPatchShading.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfRadialShading.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfShading.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfShadingPattern.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfAxialShading.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfTensorShading.cs" />
+    <Compile Include="Pdf\ColorSpace\Pattern\PdfTilingPattern.cs" />
+    <Compile Include="Pdf\ColorSpace\PdfColor.cs" />
+    <Compile Include="Pdf\ColorSpace\PdfPattern.cs" />
+    <Compile Include="Pdf\ColorSpace\SeparationCS.cs" />
+    <Compile Include="Pdf\Filter\DCTParams.cs" />
+    <Compile Include="Pdf\Filter\JBig2Params.cs" />
+    <Compile Include="Pdf\Filter\LZWParams.cs" />
+    <Compile Include="Pdf\Filter\Pdf85Filter.cs" />
+    <Compile Include="Pdf\Filter\PdfJBig2Filter.cs" />
+    <Compile Include="Pdf\Filter\PdfJPXFilter.cs" />
+    <Compile Include="Pdf\Filter\PdfLZWFilter.cs" />
+    <Compile Include="Pdf\Filter\PdfRunLengthFilter.cs" />
+    <Compile Include="Pdf\Filter\PNGPredictor.cs" />
+    <Compile Include="Pdf\Font\AdobeFontMetrixs.cs" />
+    <Compile Include="Pdf\Font\Enc.cs" />
+    <Compile Include="Pdf\Font\Enums.cs" />
+    <Compile Include="Render\CairoLib\DrawCairo.cs" />
+    <Compile Include="Render\CairoLib\rCairoPattern.cs" />
+    <Compile Include="Render\Font\FontCache.cs" />
+    <Compile Include="Render\Font\FontFactory.cs" />
+    <Compile Include="Render\GDIRender.cs" />
+    <Compile Include="Render\GDI\DrawGDI.cs" />
+    <Compile Include="Render\GDI\rGDIPattern.cs" />
+    <Compile Include="Render\InfoFF.cs" />
+    <Compile Include="Render\CairoRender.cs" />
+    <Compile Include="Render\DCRender.cs" />
+    <Compile Include="Render\PDF\DrawCMD.cs" />
+    <Compile Include="Render\PDF\DrawPage.cs" />
+    <Compile Include="Render\rPattern.cs" />
+    <Compile Include="Render\WPF\rDCImage.cs" />
+    <Compile Include="Render\WPF\rWPFPattern.cs" />
+    <Compile Include="Render\WPF\TriangleDrawer.cs" />
+    <Compile Include="Render\Font\IFontFactory.cs" />
+    <Compile Include="Pdf\Font\PdfCIDFont.cs" />
+    <Compile Include="Pdf\Font\PdfCmap.cs" />
+    <Compile Include="Pdf\Font\PdfEncoding.cs" />
+    <Compile Include="Pdf\Font\PdfFont.cs" />
+    <Compile Include="Pdf\Font\PdfFontDescriptor.cs" />
+    <Compile Include="Pdf\Font\PdfType0Font.cs" />
+    <Compile Include="Pdf\Font\PdfType1Font.cs" />
+    <Compile Include="Pdf\Font\PdfType3Font.cs" />
+    <Compile Include="Pdf\Function\PdfFunction.cs" />
+    <Compile Include="Pdf\Function\PdfExponentialFunction.cs" />
+    <Compile Include="Pdf\Function\PdfIdentityFunction.cs" />
+    <Compile Include="Pdf\Function\PdfPostScriptFunction.cs" />
+    <Compile Include="Pdf\Function\PdfSampleFunction.cs" />
+    <Compile Include="Pdf\Function\PdfStitchingFunction.cs" />
+    <Compile Include="Pdf\Internal\ItemArray.cs" />
+    <Compile Include="Pdf\Internal\PdfGState.cs" />
+    <Compile Include="Pdf\Internal\SealedArray.cs" />
+    <Compile Include="Pdf\Primitives\xStructs.cs" />
+    <Compile Include="Pdf\PdfForm.cs" />
+    <Compile Include="Pdf\Internal\RealArray.cs" />
+    <Compile Include="Pdf\Internal\SealedDocument.cs" />
+    <Compile Include="Pdf\PdfOutline.cs" />
+    <Compile Include="PostScript\Font\PSCIDSystemInfo.cs" />
+    <Compile Include="PostScript\Font\PSCMap.cs" />
+    <Compile Include="PostScript\Font\PSCodeMap.cs" />
+    <Compile Include="PostScript\Font\PSCharStrings.cs" />
+    <Compile Include="PostScript\Font\PSFont.cs" />
+    <Compile Include="PostScript\Font\PSPrivDict.cs" />
+    <Compile Include="PostScript\Font\PSSubrs.cs" />
+    <Compile Include="PostScript\Internal\EexecStream.cs" />
+    <Compile Include="PostScript\Internal\HlpMet.cs" />
+    <Compile Include="PostScript\Internal\PSCallback.cs" />
+    <Compile Include="PostScript\Internal\PSSave.cs" />
+    <Compile Include="PostScript\Internal\PSVM.cs" />
+    <Compile Include="PostScript\Internal\PSTypeDict.cs" />
+    <Compile Include="PostScript\Internal\PSValArray.cs" />
+    <Compile Include="PostScript\Primitives\PSFile.cs" />
+    <Compile Include="PostScript\Primitives\PSMark.cs" />
+    <Compile Include="PostScript\Primitives\PSNull.cs" />
+    <Compile Include="PostScript\Primitives\PSOperator.cs" />
+    <Compile Include="PostScript\Primitives\PSArray.cs" />
+    <Compile Include="PostScript\Primitives\PSBool.cs" />
+    <Compile Include="PostScript\Primitives\PSDictionary.cs" />
+    <Compile Include="PostScript\Primitives\PSInt.cs" />
+    <Compile Include="PostScript\Primitives\PSItem.cs" />
+    <Compile Include="PostScript\Primitives\PSName.cs" />
+    <Compile Include="PostScript\Primitives\PSObject.cs" />
+    <Compile Include="PostScript\Primitives\PSProcedure.cs" />
+    <Compile Include="PostScript\Primitives\PSReal.cs" />
+    <Compile Include="PostScript\Primitives\PSString.cs" />
+    <Compile Include="PostScript\PSExceptions.cs" />
+    <Compile Include="PostScript\PSInterpreter.cs" />
+    <Compile Include="PostScript\PSLexer.cs" />
+    <Compile Include="PostScript\PSType.cs" />
+    <Compile Include="Read\IOwner.cs" />
+    <Compile Include="Read\TrueType\BuildTables.cs" />
+    <Compile Include="Render\CairoLib\Cairo.cs" />
+    <Compile Include="Render\CairoLib\CairoGeometry.cs" />
+    <Compile Include="Render\CairoLib\cStructs.cs" />
+    <Compile Include="Render\CairoLib\CairoPath.cs" />
+    <Compile Include="Render\Font\rGlyphCairo.cs" />
+    <Compile Include="Render\Font\CFFOTFont.cs" />
+    <Compile Include="Read\CFF\CFFont.cs" />
+    <Compile Include="Render\Font\CIDOTFont.cs" />
+    <Compile Include="Render\Font\CIDT1Font.cs" />
+    <Compile Include="Render\Font\CIDTTFont.cs" />
+    <Compile Include="Render\Font\CIDWPFFont.cs" />
+    <Compile Include="Render\Font\rCIDFont.cs" />
+    <Compile Include="Render\Font\rFont.cs" />
+    <Compile Include="Render\Font\rGlyph.cs" />
+    <Compile Include="Render\Font\TTFont.cs" />
+    <Compile Include="Read\TrueType\CmapTable.cs" />
+    <Compile Include="Read\TrueType\GlyfTable.cs" />
+    <Compile Include="Read\TrueType\HeadTable.cs" />
+    <Compile Include="Read\TrueType\HheaTable.cs" />
+    <Compile Include="Read\TrueType\HmtxTable.cs" />
+    <Compile Include="Read\TrueType\LocaTable.cs" />
+    <Compile Include="Read\TrueType\MaxpTable.cs" />
+    <Compile Include="Read\TrueType\MixClasses.cs" />
+    <Compile Include="Read\TrueType\NameTable.cs" />
+    <Compile Include="Read\TrueType\Table.cs" />
+    <Compile Include="Read\TrueType\TableDirectory.cs" />
+    <Compile Include="Read\TrueType\VheaTable.cs" />
+    <Compile Include="Read\TrueType\VmtxTable.cs" />
+    <Compile Include="Render\Font\Type1CFont.cs" />
+    <Compile Include="Render\Font\Type1Font.cs" />
+    <Compile Include="Render\Font\Type3Font.cs" />
+    <Compile Include="Render\Font\WPFFont.cs" />
+    <Compile Include="Render\Font\rGlyphWPF.cs" />
+    <Compile Include="Render\IDraw.cs" />
+    <Compile Include="Render\IPage.cs" />
+    <Compile Include="Render\IRender.cs" />
+    <Compile Include="Render\PdfRender.cs" />
+    <Compile Include="Render\AxialCrossClip.cs" />
+    <Compile Include="Render\WPF\Shader\DesaturateEffect.cs" />
+    <Compile Include="Render\WPF\Shader\GrayScaleEffect.cs" />
+    <Compile Include="Render\CSPattern.cs" />
+    <Compile Include="Img\Tiff\Enums.cs" />
+    <Compile Include="Img\Tiff\Exception.cs" />
+    <Compile Include="Img\Tiff\Internal\COMPRESSION_SCHEME.cs" />
+    <Compile Include="Img\Tiff\Internal\DataType.cs" />
+    <Compile Include="Img\Tiff\Internal\T4Options.cs" />
+    <Compile Include="Img\Tiff\Internal\Tag.cs" />
+    <Compile Include="Img\Tiff\Internal\TagID.cs" />
+    <Compile Include="Img\Tiff\Internal\TiffHeader.cs" />
+    <Compile Include="Img\Tiff\Internal\TiffIFD.cs" />
+    <Compile Include="Img\Tiff\Internal\TiffStreamReader.cs" />
+    <Compile Include="Img\Tiff\TiffExif.cs" />
+    <Compile Include="Img\Tiff\TiffImage.cs" />
+    <Compile Include="Img\Tiff\TiffReader.cs" />
+    <Compile Include="Img\Tiff\TiffStream.cs" />
+    <Compile Include="Img\Tiff\TiffTile.cs" />
+    <Compile Include="Img\Tiff\TiffWriter.cs" />
+    <Compile Include="Render\WPF\DrawDC.cs" />
+    <Compile Include="Render\WPF\DrawDebug.cs" />
+    <Compile Include="Render\WPF\DrawWPF.cs" />
+    <Compile Include="Render\WPF\StateDraw.cs" />
+    <Compile Include="Util\BitStream.cs" />
+    <Compile Include="Img\Bmp.cs" />
+    <Compile Include="Encryption\CRC32_Alt.cs" />
+    <Compile Include="Img\IFF.cs" />
+    <Compile Include="Util\StreamWriterEx.cs" />
+    <Compile Include="Img\CCITTEncoder.cs" />
+    <Compile Include="Util\DebugItem.cs" />
+    <Compile Include="Util\DebugStream.cs" />
+    <Compile Include="Img\Internal\ErrorDiffusionDithering.cs" />
+    <Compile Include="Util\LZW.cs" />
+    <Compile Include="Util\Real.cs" />
+    <Compile Include="Util\FlattenHierarchyProxy.cs" />
+    <Compile Include="Util\HexDumpStream.cs" />
+    <Compile Include="Img\ImageInfo.cs" />
+    <Compile Include="Img\IMGTools.cs" />
+    <Compile Include="Util\IndexStack.cs" />
+    <Compile Include="Img\Internal\Interpolate.cs" />
+    <Compile Include="Img\Jpeg.cs" />
+    <Compile Include="Img\JPX.cs" />
+    <Compile Include="Util\LameCache.cs" />
+    <Compile Include="Util\MultiStream.cs" />
+    <Compile Include="Util\RecordStream.cs" />
+    <Compile Include="Util\Registery.cs" />
+    <Compile Include="Util\StreamReaderEx.cs" />
+    <Compile Include="Util\StreamTokenizer.cs" />
+    <Compile Include="Util\StringBuilderStream.cs" />
+    <Compile Include="Img\TGA.cs" />
+    <Compile Include="Util\WeakList.cs" />
+    <Compile Include="Util\XtoWPF.cs" />
+    <Compile Include="Write\DocumentOptimizer.cs" />
+    <Compile Include="Write\Internal\NewStream.cs" />
+    <Compile Include="Write\Internal\TemporaryArray.cs" />
+    <Compile Include="Write\Internal\TemporaryDictionary.cs" />
+    <Compile Include="Write\Internal\Enums.cs" />
+    <Compile Include="Write\Internal\IEnumRef.cs" />
+    <Compile Include="Write\Internal\IRef.cs" />
+    <Compile Include="Write\Internal\PdfWriter.cs" />
+    <Compile Include="Write\Internal\ResTracker.cs" />
+    <Compile Include="Pdf\Internal\SealedReference.cs" />
+    <Compile Include="Write\Internal\RWReference.cs" />
+    <Compile Include="Write\Internal\WritableArray.cs" />
+    <Compile Include="Write\Internal\WritableDictionary.cs" />
+    <Compile Include="Write\Internal\WritableObjStream.cs" />
+    <Compile Include="Write\Internal\WritableStream.cs" />
+    <Compile Include="Write\Internal\WrMemStream.cs" />
+    <Compile Include="Write\StreamDocument.cs" />
+    <Compile Include="Write\WritableDocument.cs" />
+    <Compile Include="Compile\PdfCompiler.cs" />
+    <Compile Include="Render\Commands\RenderCMD.cs" />
+    <Compile Include="Pdf\Filter\PdfHexFilter.cs" />
+    <Compile Include="Pdf\Internal\IntArray.cs" />
+    <Compile Include="Pdf\Internal\ObjStream.cs" />
+    <Compile Include="Pdf\Internal\PdfContent.cs" />
+    <Compile Include="Write\Internal\WritableReference.cs" />
+    <Compile Include="Pdf\Internal\XRefStream.cs" />
+    <Compile Include="Pdf\ColorSpace\DeviceGray.cs" />
+    <Compile Include="Pdf\ColorSpace\DeviceRGB.cs" />
+    <Compile Include="Pdf\Filter\PdfDCTFilter.cs" />
+    <Compile Include="Pdf\Filter\PdfFaxFilter.cs" />
+    <Compile Include="Pdf\Filter\PdfFilterParms.cs" />
+    <Compile Include="Pdf\Filter\PdfFlateFilter.cs" />
+    <Compile Include="Pdf\Filter\PdfFilter.cs" />
+    <Compile Include="Pdf\Internal\Elements.cs" />
+    <Compile Include="Pdf\Internal\TypeArray.cs" />
+    <Compile Include="Pdf\Internal\TypeDict.cs" />
+    <Compile Include="Pdf\Internal\MsgItem.cs" />
+    <Compile Include="Pdf\Internal\PageTree.cs" />
+    <Compile Include="Pdf\Internal\PdfStream.cs" />
+    <Compile Include="Pdf\Internal\PdfType.cs" />
+    <Compile Include="Pdf\Internal\PdfXObject.cs" />
+    <Compile Include="Pdf\ColorSpace\PdfColorSpace.cs" />
+    <Compile Include="Pdf\Primitives\PdfDate.cs" />
+    <Compile Include="Pdf\Internal\SealedDictionary.cs" />
+    <Compile Include="Pdf\Internal\PdfIObject.cs" />
+    <Compile Include="Pdf\Primitives\PdfArray.cs" />
+    <Compile Include="Pdf\Primitives\PdfBool.cs" />
+    <Compile Include="Pdf\Primitives\PdfDictionary.cs" />
+    <Compile Include="Pdf\Primitives\PdfInt.cs" />
+    <Compile Include="Pdf\Primitives\PdfItem.cs" />
+    <Compile Include="Pdf\Primitives\PdfName.cs" />
+    <Compile Include="Pdf\Primitives\PdfNull.cs" />
+    <Compile Include="Pdf\Internal\PdfObject.cs" />
+    <Compile Include="Pdf\Primitives\PdfReference.cs" />
+    <Compile Include="Pdf\Primitives\PdfReal.cs" />
+    <Compile Include="Pdf\Primitives\PdfRectangle.cs" />
+    <Compile Include="Pdf\Primitives\PdfString.cs" />
+    <Compile Include="Pdf\Internal\PdfCatalog.cs" />
+    <Compile Include="Pdf\Encryption\PdfEncryption.cs" />
+    <Compile Include="Pdf\PdfImage.cs" />
+    <Compile Include="Pdf\PdfPages.cs" />
+    <Compile Include="Pdf\PdfResources.cs" />
+    <Compile Include="Pdf\Internal\PdfTrailer.cs" />
+    <Compile Include="Pdf\Internal\PdfXRefTable.cs" />
+    <Compile Include="Read\Enums.cs" />
+    <Compile Include="Read\Lexer.cs" />
+    <Compile Include="Read\Parser\Parser.cs" />
+    <Compile Include="PdfDocument.cs" />
+    <Compile Include="PdfExceptions.cs" />
+    <Compile Include="Util\ArrayHelper.cs" />
+    <Compile Include="Pdf\Internal\MinorStuff.cs" />
+    <Compile Include="PdfFile.cs" />
+    <Compile Include="PdfPage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Render\rImage.cs" />
+    <Compile Include="SR.cs" />
+    <Compile Include="Img\CCITTDecoder.cs" />
+    <Compile Include="Res\StrRes.cs" />
+    <Compile Include="Util\WeakCache.cs" />
+    <Compile Include="Util\WeakReference.cs" />
+    <Compile Include="Write\WritableType3Font.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Img\Internal\QWU\LICENSE.txt" />
+    <None Include="ChangeLog.txt" />
+    <EmbeddedResource Include="Lisences.txt" />
+    <Content Include="Pdf\ColorSpace\Missing.txt" />
+    <Content Include="Pdf\Font\Notes.txt" />
+    <Content Include="Readme.txt" />
+    <Content Include="Render\PatternNotes.txt" />
+    <EmbeddedResource Include="Res\Cmap\90ms-RKSJ-H" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Japan1-2" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Japan1-UCS2" />
+    <EmbeddedResource Include="Res\Cmap\UniJIS-UCS2-H" />
+    <EmbeddedResource Include="Res\Cmap\UniJIS-UCS2-V" />
+    <EmbeddedResource Include="Res\Font\ZapfEnc.txt" />
+    <EmbeddedResource Include="Res\Font\SymbolEnc.txt" />
+    <EmbeddedResource Include="Res\Font\StandarEnc.txt" />
+    <EmbeddedResource Include="Res\Font\MacRoman.txt" />
+    <EmbeddedResource Include="Res\Font\MacExpert.txt" />
+    <EmbeddedResource Include="Res\Font\WinANSI.txt" />
+    <EmbeddedResource Include="Res\Font\ExpertSubset.txt" />
+    <EmbeddedResource Include="Res\Font\Expert.txt" />
+    <EmbeddedResource Include="Res\Font\ISOAdobe.txt" />
+    <EmbeddedResource Include="Res\Font\glyphlist.txt" />
+    <EmbeddedResource Include="Res\Font\SIDNames.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res\LogText.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Res\Text\PLog.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res\Font\AFM\Courier-Bold.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Courier-BoldOblique.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Courier-Oblique.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Courier.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Helvetica-Bold.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Helvetica-BoldOblique.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Helvetica-Oblique.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Helvetica.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Symbol.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Times-Bold.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Times-BoldItalic.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Times-Italic.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\Times-Roman.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\ZapfDingbats.afm" />
+    <Resource Include="Res\Shader\GrayScale.ps" />
+    <Resource Include="Res\Shader\Desaturate.ps" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res\Font\Droid\DroidSansFallback.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res\Cmap\78-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\78-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\78-H" />
+    <EmbeddedResource Include="Res\Cmap\78-RKSJ-H" />
+    <EmbeddedResource Include="Res\Cmap\78-RKSJ-V" />
+    <EmbeddedResource Include="Res\Cmap\78-V" />
+    <EmbeddedResource Include="Res\Cmap\78ms-RKSJ-H" />
+    <EmbeddedResource Include="Res\Cmap\78ms-RKSJ-V" />
+    <EmbeddedResource Include="Res\Cmap\83pv-RKSJ-H" />
+    <EmbeddedResource Include="Res\Cmap\90ms-RKSJ-V" />
+    <EmbeddedResource Include="Res\Cmap\90msp-RKSJ-H" />
+    <EmbeddedResource Include="Res\Cmap\90msp-RKSJ-V" />
+    <EmbeddedResource Include="Res\Cmap\90pv-RKSJ-H" />
+    <EmbeddedResource Include="Res\Cmap\90pv-RKSJ-V" />
+    <EmbeddedResource Include="Res\Cmap\Add-H" />
+    <EmbeddedResource Include="Res\Cmap\Add-RKSJ-H" />
+    <EmbeddedResource Include="Res\Cmap\Add-RKSJ-V" />
+    <EmbeddedResource Include="Res\Cmap\Add-V" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-CNS1-0" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-CNS1-1" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-CNS1-2" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-CNS1-3" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-CNS1-4" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-CNS1-5" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-CNS1-6" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-CNS1-UCS2" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-GB1-0" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-GB1-1" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-GB1-2" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-GB1-3" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-GB1-4" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-GB1-5" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-GB1-UCS2" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Japan1-0" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Japan1-1" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Japan1-3" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Japan1-4" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Japan1-5" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Japan1-6" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Japan2-0" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Korea1-0" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Korea1-1" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Korea1-2" />
+    <EmbeddedResource Include="Res\Cmap\Adobe-Korea1-UCS2" />
+    <EmbeddedResource Include="Res\Cmap\B5-H" />
+    <EmbeddedResource Include="Res\Cmap\B5-V" />
+    <EmbeddedResource Include="Res\Cmap\B5pc-H" />
+    <EmbeddedResource Include="Res\Cmap\B5pc-V" />
+    <EmbeddedResource Include="Res\Cmap\CNS-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\CNS-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\CNS1-H" />
+    <EmbeddedResource Include="Res\Cmap\CNS1-V" />
+    <EmbeddedResource Include="Res\Cmap\CNS2-H" />
+    <EmbeddedResource Include="Res\Cmap\CNS2-V" />
+    <EmbeddedResource Include="Res\Cmap\ETen-B5-H" />
+    <EmbeddedResource Include="Res\Cmap\ETen-B5-V" />
+    <EmbeddedResource Include="Res\Cmap\ETenms-B5-H" />
+    <EmbeddedResource Include="Res\Cmap\ETenms-B5-V" />
+    <EmbeddedResource Include="Res\Cmap\ETHK-B5-H" />
+    <EmbeddedResource Include="Res\Cmap\ETHK-B5-V" />
+    <EmbeddedResource Include="Res\Cmap\EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\Ext-H" />
+    <EmbeddedResource Include="Res\Cmap\Ext-RKSJ-H" />
+    <EmbeddedResource Include="Res\Cmap\Ext-RKSJ-V" />
+    <EmbeddedResource Include="Res\Cmap\Ext-V" />
+    <EmbeddedResource Include="Res\Cmap\GB-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\GB-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\GB-H" />
+    <EmbeddedResource Include="Res\Cmap\GB-V" />
+    <EmbeddedResource Include="Res\Cmap\GBK-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\GBK-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\GBK2K-H" />
+    <EmbeddedResource Include="Res\Cmap\GBK2K-V" />
+    <EmbeddedResource Include="Res\Cmap\GBKp-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\GBKp-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\GBpc-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\GBpc-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\GBT-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\GBT-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\GBT-H" />
+    <EmbeddedResource Include="Res\Cmap\GBT-V" />
+    <EmbeddedResource Include="Res\Cmap\GBTpc-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\GBTpc-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\H" />
+    <EmbeddedResource Include="Res\Cmap\Hankaku" />
+    <EmbeddedResource Include="Res\Cmap\Hiragana" />
+    <EmbeddedResource Include="Res\Cmap\HKdla-B5-H" />
+    <EmbeddedResource Include="Res\Cmap\HKdla-B5-V" />
+    <EmbeddedResource Include="Res\Cmap\HKdlb-B5-H" />
+    <EmbeddedResource Include="Res\Cmap\HKdlb-B5-V" />
+    <EmbeddedResource Include="Res\Cmap\HKgccs-B5-H" />
+    <EmbeddedResource Include="Res\Cmap\HKgccs-B5-V" />
+    <EmbeddedResource Include="Res\Cmap\HKm314-B5-H" />
+    <EmbeddedResource Include="Res\Cmap\HKm314-B5-V" />
+    <EmbeddedResource Include="Res\Cmap\HKm471-B5-H" />
+    <EmbeddedResource Include="Res\Cmap\HKm471-B5-V" />
+    <EmbeddedResource Include="Res\Cmap\HKscs-B5-H" />
+    <EmbeddedResource Include="Res\Cmap\HKscs-B5-V" />
+    <EmbeddedResource Include="Res\Cmap\Hojo-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\Hojo-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\Hojo-H" />
+    <EmbeddedResource Include="Res\Cmap\Hojo-V" />
+    <EmbeddedResource Include="Res\Cmap\Katakana" />
+    <EmbeddedResource Include="Res\Cmap\KSC-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\KSC-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\KSC-H" />
+    <EmbeddedResource Include="Res\Cmap\KSC-Johab-H" />
+    <EmbeddedResource Include="Res\Cmap\KSC-Johab-V" />
+    <EmbeddedResource Include="Res\Cmap\KSC-V" />
+    <EmbeddedResource Include="Res\Cmap\KSCms-UHC-H" />
+    <EmbeddedResource Include="Res\Cmap\KSCms-UHC-HW-H" />
+    <EmbeddedResource Include="Res\Cmap\KSCms-UHC-HW-V" />
+    <EmbeddedResource Include="Res\Cmap\KSCms-UHC-V" />
+    <EmbeddedResource Include="Res\Cmap\KSCpc-EUC-H" />
+    <EmbeddedResource Include="Res\Cmap\KSCpc-EUC-V" />
+    <EmbeddedResource Include="Res\Cmap\NWP-H" />
+    <EmbeddedResource Include="Res\Cmap\NWP-V" />
+    <EmbeddedResource Include="Res\Cmap\README" />
+    <EmbeddedResource Include="Res\Cmap\RKSJ-H" />
+    <EmbeddedResource Include="Res\Cmap\RKSJ-V" />
+    <EmbeddedResource Include="Res\Cmap\Roman" />
+    <EmbeddedResource Include="Res\Cmap\UniCNS-UCS2-H" />
+    <EmbeddedResource Include="Res\Cmap\UniCNS-UCS2-V" />
+    <EmbeddedResource Include="Res\Cmap\UniCNS-UTF16-H" />
+    <EmbeddedResource Include="Res\Cmap\UniCNS-UTF16-V" />
+    <EmbeddedResource Include="Res\Cmap\UniGB-UCS2-H" />
+    <EmbeddedResource Include="Res\Cmap\UniGB-UCS2-V" />
+    <EmbeddedResource Include="Res\Cmap\UniGB-UTF16-H" />
+    <EmbeddedResource Include="Res\Cmap\UniGB-UTF16-V" />
+    <EmbeddedResource Include="Res\Cmap\UniHojo-UCS2-H" />
+    <EmbeddedResource Include="Res\Cmap\UniHojo-UCS2-V" />
+    <EmbeddedResource Include="Res\Cmap\UniHojo-UTF16-H" />
+    <EmbeddedResource Include="Res\Cmap\UniHojo-UTF16-V" />
+    <EmbeddedResource Include="Res\Cmap\UniJIS-UCS2-HW-H" />
+    <EmbeddedResource Include="Res\Cmap\UniJIS-UCS2-HW-V" />
+    <EmbeddedResource Include="Res\Cmap\UniJIS-UTF16-H" />
+    <EmbeddedResource Include="Res\Cmap\UniJIS-UTF16-V" />
+    <EmbeddedResource Include="Res\Cmap\UniJISPro-UCS2-HW-V" />
+    <EmbeddedResource Include="Res\Cmap\UniJISPro-UCS2-V" />
+    <EmbeddedResource Include="Res\Cmap\UniKS-UCS2-H" />
+    <EmbeddedResource Include="Res\Cmap\UniKS-UCS2-V" />
+    <EmbeddedResource Include="Res\Cmap\UniKS-UTF16-H" />
+    <EmbeddedResource Include="Res\Cmap\UniKS-UTF16-V" />
+    <EmbeddedResource Include="Res\Cmap\V" />
+    <EmbeddedResource Include="Res\Cmap\WP-Symbol" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Pdf\ColorSpace\ColorSpace Overview.cd" />
+    <None Include="Pdf\ColorSpace\Pattern\Pattern Overview.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DeflateLib\DeflateLib.csproj">
+      <Project>{eba1066f-8fd7-42d8-a819-49cbc1744277}</Project>
+      <Name>DeflateLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JBig2.net\JBig2.net.csproj">
+      <Project>{d8488af0-25e3-450a-b33e-26e87e321d94}</Project>
+      <Name>JBig2.net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenJpeg.net\OpenJpeg.net.csproj">
+      <Project>{1912d36c-d4cc-41a2-a6f7-9308a125afa0}</Project>
+      <Name>OpenJpeg.net</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res\Font\cff\Dingbats.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusMonL-Bold.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusMonL-BoldObli.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusMonL-Regu.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusMonL-ReguObli.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusRomNo9L-Medi.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusRomNo9L-MediItal.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusRomNo9L-Regu.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusRomNo9L-ReguItal.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusSanL-Bold.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusSanL-BoldItal.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusSanL-Regu.cff" />
+    <EmbeddedResource Include="Res\Font\cff\NimbusSanL-ReguItal.cff" />
+    <EmbeddedResource Include="Res\Font\cff\StandardSymL.cff" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

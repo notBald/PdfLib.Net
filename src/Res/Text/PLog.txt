@@ -1,0 +1,75 @@
+﻿# Comment lines start with "#"
+# Caption has the form <hex num>:Caption
+# Body lines start with --, or -| to force a newline
+
+0:A general error occurred
+4:Unexpected end of file
+--While reading data from the PDF file it abruptly ended. It's a bit like reading
+--a book that lacks the last chapter. There is very little PdfLib can do if the
+--data it needs to read don't exists, so check if the PDF file is whole.
+-|
+-|This error is likely a bug in PdfLib however. PDF files tend to not parse at
+--all if there's data missing.
+5:A token in the PDF file is corrupt
+--PDF files are built up of tokens. These tokens represents numbers, names,
+--keywords and a varity of other things. If a token is corrupt it means PdfLib
+--was either unable to understand the token, or that the PDF file is damaged.
+
+#Header
+010001:The PDF file's header is invalid
+--The header of a PDF contains version information about the PDF file. The parser
+--does not make use of this information, but will stop parsing if no rudimentary
+--header is present.
+010002:The PDF file's header is missing
+--The header of a PDF contains version information about the PDF file. The parser
+--does not make use of this information, but have stopped parsing as there is a
+--strong likelihood that this isn't a PDF file.
+
+#Trailer
+020002:Failed to find trailer
+--At the end of a PDF file there is a table that describes the location of all
+--objects in the PDF file. Without this table the parser is unable to find anything.
+-|
+-|Some PDF readers are able to rebuild the trailer by scanning the PDF file and
+--noting the locations of objects manually. Unfortunately PdfLib is not able to do 
+--this, and will be unable to parse the file.
+020100:Cannot parse Cross Ref Stream
+--Adobe Reader 6.0 (PDF version 1.5) introduced a new format for cross reference
+--tables. This format is more compact and allows for smaller PDF files.
+-|
+-|The cross reference table is used for locating objects inside the PDF file. It's
+--possible to find objects without using the cross reference table, but PdfLib is
+--not able to do this.
+-|
+-|Since this version of PdfLib is unable to parse the "xref stream" it will not
+--be able to open this PDF document. (See PDF specs 7.5.8)
+020003:Encountered an unexpected token
+--During the parsing of the trailer an unexpected token was encounter. A token can
+--be a number, a name, a keyword, and so on, which is used to construct the PDF
+--document. When parsing a trailer, PdfLib looks for specific tokens that tells it
+--how the trailer is built up.
+-|
+-|An unexpected token is essentially a token the parser does not know what to do
+--with. It may have been looking for a keyword and gotten a number, or looking
+--for a number and gotten a keyword. In any case, the parser don't know what to do
+--and has given up its attempt at parsing this PDF document's trailer.
+-|
+-|The trailer consists of a table and a dictionary that usually is located at the end 
+--of a PDF document. The table, called xref table, contains the information needed 
+--to find objects in the PDF file, while the dictionary contains information on how 
+--the document was encrypted, and which object to read next among a PDF file's many
+--object.
+-|
+-|Some PDF readers are able to discover this information by analyzing the PDF file,
+--(when they encounter a PDF file with a damaged trailer), but PdfLib is not able 
+--to do this, and will therefore not be able to open this PDF document.
+
+#Temp
+99:The lexer encountered a unexpected character
+--The lexer is responsible for transforming characters in the PDF file into types
+--the parser understands. It does this by examining each character to determine
+--what type of token it represents. For instance, a numeric character (0-9) means
+--that the token is numeric.
+-|
+-|Unexpected characters are characters the lexer does not know what to do with. It
+--can ignore the character, but it's usually a sign that a bigger error has occurred.

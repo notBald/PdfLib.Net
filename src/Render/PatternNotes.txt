@@ -1,0 +1,62 @@
+﻿Pattern notes:
+
+Step 1. Setup
+
+-In this case it's a axial shading pattern
+-Set up matrixes, clipping and AA.
+-Fills optional backround color.
+
+Step 2. Fill axial pattern
+
+A. Get bounding box
+ This is the box the drawing will go into. Just use the bounds
+ feature on geomerty, perhaps with some matrix adjustment if
+ needed.
+
+ Can also set the clip to the bounding box
+
+B. Then a bit of math:
+ First compute delta x and delta y for the bounding box.
+
+ Then compute tmin and tmax (t is the shading axis)
+        dx * (xMin - x0) + dy * (ymin - y0)
+ tmin = -----------------------------------
+	                dx^2 * dy^2
+
+ The formula is straight from the PDF specs, (page 194 in sumatra), 
+ where x0 is from the coords array, xMin is from the clip and dx is
+ "delta x" (Y is the same deal)
+
+ Do this for each corner of the clip box. xmin, ymin is one corner
+ xmin, ymax is the next corner, and so on.
+
+ Then take the min/max t values and clip them to 0-1 depending on the
+ Extend PdfArray.
+
+C. First color calculation
+
+ First calculate the color of tmin. This can be done later, but in
+ any case use the formula for calculating T (given in the specs)
+ and hand it over to the functions. 
+ 
+ On the short term one can just set a color.
+
+D. Then calc tx, ty coordinate for tmin
+ 
+ Just multiply t with dx and dy calcled earlier
+
+E. Intersection with BBox (Creating polygons)
+
+ Then calc the intersection for the pendicular line on the t axis
+ with the bounding box. Do this again for the next t, and together
+ the intersection points form a polygon over an area to draw (with
+ a single color)
+
+F. Then move to the next region.
+
+More notes:
+
+-This is a sample based approach, some cleverness to how often to
+ sample will probably speed up the algo.
+-This means the geomety objects will either be rectangular, triangles
+ or "almost" rectangles with endpoints squewed to the bounding box.

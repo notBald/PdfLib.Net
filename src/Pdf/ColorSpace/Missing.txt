@@ -1,0 +1,5 @@
+﻿Rendering intent
+Whitepoint
+ChannelN/DeviceN with attributes
+Type 5 shader
+ICCProfile

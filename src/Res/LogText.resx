@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="E0000C" xml:space="preserve">
+    <value>A general error occurred</value>
+  </data>
+  <data name="E0001C" xml:space="preserve">
+    <value>Encountred invalid {0}</value>
+  </data>
+  <data name="E0002C" xml:space="preserve">
+    <value>{0} missing</value>
+  </data>
+  <data name="E0003C" xml:space="preserve">
+    <value>Encountred wrong {0}</value>
+  </data>
+  <data name="E0005C" xml:space="preserve">
+    <value>{0} out of range</value>
+  </data>
+  <data name="E0009B" xml:space="preserve">
+    <value>While reading data from the PDF file it abruptly ended. It's a bit like reading a book that lacks the last chapter. There is very little PdfLib can do if the data it needs to read don't exists, so check if the PDF file is whole.
+
+This error is likely a bug in PdfLib however. PDF files tend to not parse at all if there's data missing.</value>
+  </data>
+  <data name="E0009C" xml:space="preserve">
+    <value>Unexpected end of file</value>
+  </data>
+  <data name="E000EC" xml:space="preserve">
+    <value>{0} is corrupt</value>
+  </data>
+  <data name="E000FC" xml:space="preserve">
+    <value>Wrong type of item, expected {0}</value>
+  </data>
+  <data name="E0102C" xml:space="preserve">
+    <value>{0} missing from object stream</value>
+  </data>
+  <data name="E010AC" xml:space="preserve">
+    <value>Stream reports unexpected end of data</value>
+  </data>
+  <data name="E0301C" xml:space="preserve">
+    <value>Xref table encountered an invalid {0}</value>
+  </data>
+  <data name="E0302C" xml:space="preserve">
+    <value>Found XRef table, but not the trailer dictionary</value>
+  </data>
+  <data name="E0303C" xml:space="preserve">
+    <value>Xref table expected {0}</value>
+  </data>
+  <data name="E0307C" xml:space="preserve">
+    <value>Xrew table encountered a object different from the one expected</value>
+  </data>
+  <data name="E0311C" xml:space="preserve">
+    <value>Xref encountered {0}, expected object</value>
+  </data>
+  <data name="E0407C" xml:space="preserve">
+    <value>Pages encountered a object different from the one expected</value>
+  </data>
+  <data name="E050CC" xml:space="preserve">
+    <value>Unexpected negative {0}</value>
+  </data>
+  <data name="E0510C" xml:space="preserve">
+    <value>Attempted to convert real number to integer</value>
+  </data>
+  <data name="E0701C" xml:space="preserve">
+    <value>Version information is missing from the header</value>
+  </data>
+  <data name="E0702C" xml:space="preserve">
+    <value>No PDF header found. Ending parsing of document</value>
+  </data>
+  <data name="E0801C" xml:space="preserve">
+    <value>The lexer encountered an invalid {0}</value>
+  </data>
+  <data name="E0805C" xml:space="preserve">
+    <value>Lexer rejected {0} as out of range</value>
+  </data>
+  <data name="E0809C" xml:space="preserve">
+    <value>Lexer reports that it reached the end of the stream while reading {0} data</value>
+  </data>
+  <data name="E080BC" xml:space="preserve">
+    <value>Lexer encountered an unexpected character: {0}</value>
+  </data>
+  <data name="E080DC" xml:space="preserve">
+    <value>Lexer encountered corrupt {0}</value>
+  </data>
+  <data name="E0901C" xml:space="preserve">
+    <value>Parser enountered stream with missing length entery</value>
+  </data>
+  <data name="E0903C" xml:space="preserve">
+    <value>Parser expected {0}</value>
+  </data>
+  <data name="E0907C" xml:space="preserve">
+    <value>Object not allowed inside object</value>
+  </data>
+  <data name="E0909C" xml:space="preserve">
+    <value>Parser reports that data ended unexpectedly</value>
+  </data>
+  <data name="E0A02C" xml:space="preserve">
+    <value>{0} missing from dictionary</value>
+  </data>
+  <data name="E0B0AC" xml:space="preserve">
+    <value>XObject reports unexpected end of data</value>
+  </data>
+  <data name="E0D02C" xml:space="preserve">
+    <value>Unable to find {0} during compilation</value>
+  </data>
+  <data name="E0D04C" xml:space="preserve">
+    <value>Parser encountered an illigal {0}</value>
+  </data>
+  <data name="E0D06C" xml:space="preserve">
+    <value>Encountered a unfamiliar {0} during compilation</value>
+  </data>
+  <data name="E0D0AC" xml:space="preserve">
+    <value>Compiler reports end of data while reading {0}</value>
+  </data>
+  <data name="E0D0FC" xml:space="preserve">
+    <value>Wrong type of item, Compiler expected {0}</value>
+  </data>
+  <data name="E0E00C" xml:space="preserve">
+    <value>An unspecified error occured wile decompresing data</value>
+  </data>
+  <data name="E0E03C" xml:space="preserve">
+    <value>Filter reported: {0}</value>
+  </data>
+  <data name="E0E05C" xml:space="preserve">
+    <value>Filter rejected {0} for being out of range</value>
+  </data>
+  <data name="E0E0AC" xml:space="preserve">
+    <value>Filter reports unexpected end of data</value>
+  </data>
+  <data name="E0E0DC" xml:space="preserve">
+    <value>Filter encountered corrupt {0}</value>
+  </data>
+  <data name="E0E0FC" xml:space="preserve">
+    <value>Wrong type of item, Filter expected {0}</value>
+  </data>
+  <data name="E0F03C" xml:space="preserve">
+    <value>Can't make item into {0}</value>
+  </data>
+  <data name="E0F06C" xml:space="preserve">
+    <value>Encountered a unfamiliar {0}</value>
+  </data>
+  <data name="E100AC" xml:space="preserve">
+    <value>Colorspace reports unexpected end of data</value>
+  </data>
+  <data name="E100DC" xml:space="preserve">
+    <value>Colorspace encountered corrupt {0}</value>
+  </data>
+  <data name="E100FC" xml:space="preserve">
+    <value>Wrong type of item, Colorspace expected {0}</value>
+  </data>
+  <data name="E110FC" xml:space="preserve">
+    <value>Wrong type of item, Array expected {0}</value>
+  </data>
+  <data name="E120FC" xml:space="preserve">
+    <value>Wrong type of item, Font expected {0}</value>
+  </data>
+  <data name="I0600C" xml:space="preserve">
+    <value>Opened PDF document {0}</value>
+  </data>
+  <data name="I0601C" xml:space="preserve">
+    <value>Document is encrypted</value>
+  </data>
+  <data name="W0000C" xml:space="preserve">
+    <value>Command {0} was executed in {1} mode</value>
+  </data>
+  <data name="W0100C" xml:space="preserve">
+    <value>Ignored command: {0}</value>
+  </data>
+  <data name="W0200C" xml:space="preserve">
+    <value>Packbits missing EOD marker</value>
+  </data>
+  <data name="W0301C" xml:space="preserve">
+    <value>Stream used CR instead of LF</value>
+    <comment>This is a problem, as if a writer is CR and save a stream that start with LF, PDF readers will skip the first byte</comment>
+  </data>
+</root>

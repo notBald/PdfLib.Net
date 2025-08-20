@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PdfLib.Pdf.ColorSpace.Pattern.PdfShading" Collapsed="true">
+    <Position X="10.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQCAAAACAAAAAAAAAAAAAAAAAAEAAQUAwAAAAAAA=</HashCode>
+      <FileName>Pdf\ColorSpace\Pattern\PdfShading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfLib.Pdf.ColorSpace.Pattern.PdfAxialShading" Collapsed="true">
+    <Position X="6.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAIAAgAAAIgAQAAQAAAAAAA=</HashCode>
+      <FileName>Pdf\ColorSpace\Pattern\PdfAxialShading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfLib.Pdf.ColorSpace.Pattern.PdfFunctionShading" Collapsed="true">
+    <Position X="9" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAgAgAIgAAAAQAAAAAAA=</HashCode>
+      <FileName>Pdf\ColorSpace\Pattern\PdfFunctionShading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfLib.Pdf.ColorSpace.Pattern.PdfRadialShading" Collapsed="true">
+    <Position X="11.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAIAAgAAAIgAQAAQAAAAAAA=</HashCode>
+      <FileName>Pdf\ColorSpace\Pattern\PdfRadialShading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfLib.Pdf.ColorSpace.Pattern.PdfStreamShading" Collapsed="true">
+    <Position X="13.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAgAAAoAAAAAAEgAABAQQAkQBBA=</HashCode>
+      <FileName>Pdf\ColorSpace\Pattern\PdfStreamShading.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PdfLib.Pdf.ColorSpace.Pattern.PdfGouraudShading" Collapsed="true">
+    <Position X="12.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Pdf\ColorSpace\Pattern\PdfGouraudShading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfLib.Pdf.ColorSpace.Pattern.PdfPatchShading" Collapsed="true">
+    <Position X="14.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Pdf\ColorSpace\Pattern\PdfPatchShading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfLib.Pdf.ColorSpace.Pattern.PdfCoonsShading" Collapsed="true">
+    <Position X="13.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAkAAAAAA=</HashCode>
+      <FileName>Pdf\ColorSpace\Pattern\PdfCoonsShading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfLib.Pdf.ColorSpace.Pattern.PdfTensorShading" Collapsed="true">
+    <Position X="16" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAEAAAAAA=</HashCode>
+      <FileName>Pdf\ColorSpace\Pattern\PdfTensorShading.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

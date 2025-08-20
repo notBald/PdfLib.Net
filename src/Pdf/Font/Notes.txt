@@ -1,0 +1,54 @@
+﻿ToUnicode is not needed for "rendering"
+
+<OrgCharcode> -> |encode    | -> Glyph ID
+				 |diff array|
+
+XPdf 3 - Built in font
+<<
+  /Type /Font
+  /Subtype /Type1
+  /BaseFont /Helvetica
+  /Encoding /WinAnsiEncoding
+>>
+Step 1. Remove Whitespace from name. (If there is a name)
+Step 2. substitute name
+Step 3. Check if it's a "built in font"
+	--also gets some metrixs
+Step 4. Makes BBox and ascent/descent into doubles (x0.001)
+Step 5. (Skipped since this font has no descriptor)
+Step 5. Makes BBox and ascent/descent into doubles (same as step.4)
+Step 6. Looks for font file (Skipped)
+Step 7. Gets font metrix (Looks up FontMatrix in dict)
+	--Only relevant for Type3 fonts
+	--There's some more Type3 stuff
+Step 8. Check for base encoding
+  - Sets WinAnsiEncoding (as that's what the font specifies)
+  - Checks for Base encoding inside Type1/C files.
+Step 9
+  - Sets default encoding if non found.
+Step 10
+  - Copies the encoding array. (Index->Glyph name)
+Step 11 Type1c only
+  - Fills empty encodings in Type1C enc arrays
+Step 12, Merges differences into encoding
+  - No diferences for this font
+Step 13. Build table for mapping to unicode
+  - Pass 1. Use the name-to-unicode table
+    (Sets hex flag if an axx or fxx combo is encountered)
+  - Pass 2. Convert hex codes to unicode
+    (They get converted to integer, then cast to unicode)
+  - Has a global option for mapping unknown characters.
+    (Mapping is simple 1to1)
+Step 14. Merge ToUnicode table with ToUnicode in the font dict.
+  - Skipped
+Step 15. Unicode to Unicode mapping
+  - Skipped (Not sure what it does either)
+Step 16. Set up widths table
+  - Init to "missingWidth" (All 0)
+  - Fill in widths from font dict (skipped)
+  \
+    Set width for "space" (A kludge for broken PDF files)
+    Set widths to what's defined for the built in font
+  \
+    (Also does some cludging for broken PDF files that lacks required Width array)
+Done

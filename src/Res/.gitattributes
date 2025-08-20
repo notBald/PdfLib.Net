@@ -1,0 +1,5 @@
+# Treat PDF as binary
+*.txt -diff -merge -text
+*.afm -diff -merge -text
+*.fx -diff -merge -text
+cmap/* -diff -merge -text
