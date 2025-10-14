@@ -110,14 +110,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibJpeg.NET, Version=1.2.300.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\LibJPEG.net\sources\LibJpeg\bin\Release\LibJpeg.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenJpeg2.net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\OpenJpeg2.net\bin\Release\OpenJpeg2.net.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -571,8 +563,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Img\Internal\QWU\LICENSE.txt" />
-    <None Include="ChangeLog.txt" />
-    <EmbeddedResource Include="Lisences.txt" />
     <Content Include="Pdf\ColorSpace\Missing.txt" />
     <Content Include="Pdf\Font\Notes.txt" />
     <Content Include="Readme.txt" />
@@ -774,17 +764,25 @@
     <None Include="Pdf\ColorSpace\Pattern\Pattern Overview.cd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DeflateLib\DeflateLib.csproj">
+    <ProjectReference Include="..\..\DeflateLib\DeflateLib.csproj">
       <Project>{eba1066f-8fd7-42d8-a819-49cbc1744277}</Project>
       <Name>DeflateLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JBig2.net\JBig2.net.csproj">
+    <ProjectReference Include="..\..\JBig2.net\JBig2.net.csproj">
       <Project>{d8488af0-25e3-450a-b33e-26e87e321d94}</Project>
       <Name>JBig2.net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenJpeg.net\OpenJpeg.net.csproj">
+    <ProjectReference Include="..\..\LibJPEG.net\sources\LibJpeg\LibJpeg.net.csproj">
+      <Project>{7300cdf5-1c93-4611-8cc9-47fe79f340ab}</Project>
+      <Name>LibJpeg.net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OpenJpeg.net\OpenJpeg.net.csproj">
       <Project>{1912d36c-d4cc-41a2-a6f7-9308a125afa0}</Project>
       <Name>OpenJpeg.net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OpenJpeg2.net\OpenJpeg2.net.csproj">
+      <Project>{dd76cab2-1880-4be6-a2cb-37b351343c2b}</Project>
+      <Name>OpenJpeg2.net</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
