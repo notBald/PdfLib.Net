@@ -66,7 +66,7 @@ namespace PdfLib.Pdf.Primitives
         public override double GetReal() { return Value; }
 
         /// <summary>
-        /// There's no string representation for integers
+        /// There's no string representation for reals
         /// </summary>
         public override string GetString() { throw new NotSupportedException(); }
 

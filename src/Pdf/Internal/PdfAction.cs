@@ -158,7 +158,7 @@ namespace PdfLib.Pdf.Internal
         }
 
         /// <summary>
-        /// Adobt this object. Will return false if the adoption failed.
+        /// Adopt this object. Will return false if the adoption failed.
         /// </summary>
         /// <param name="tracker">Tracker that wish to adopt this item</param>
         /// <param name="state">State information about the adoption</param>

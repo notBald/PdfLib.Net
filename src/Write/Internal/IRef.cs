@@ -57,7 +57,7 @@ namespace PdfLib.Write.Internal
         /// <remarks>
         /// In retrospect this is a bit silly.
         /// 
-        /// Instead make a tracker.Adobt(IKRef) function. Inside there
+        /// Instead make a tracker.Adopt(IKRef) function. Inside there
         /// call a IKRef.GetTempContainer function that returns null
         /// if there's no such container. Then that function below 
         /// carrying state information can be dropped.

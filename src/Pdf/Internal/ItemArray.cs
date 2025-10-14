@@ -78,7 +78,7 @@ namespace PdfLib.Pdf.Internal
         bool IKRef.IsDummy { get { return _items.IsWritable && _items.Tracker == null; } }
 
         /// <summary>
-        /// Adobt this object. Will return false if the adobtion failed.
+        /// Adopt this object. Will return false if the adoption failed.
         /// </summary>
         /// <param name="tracker"></param>
         /// <returns>True if adoption suceeded</returns>
@@ -90,9 +90,9 @@ namespace PdfLib.Pdf.Internal
         }
 
         /// <summary>
-        /// Adobt this object. Will return false if the adobtion failed.
+        /// Adopt this object. Will return false if the adoption failed.
         /// </summary>
-        /// <param name="tracker">Tracker that wish to adobt this item</param>
+        /// <param name="tracker">Tracker that wish to adopt this item</param>
         /// <param name="state">State information about the adoption</param>
         /// <returns>True if adoption suceeded</returns>
         bool IKRef.Adopt(ResTracker tracker, object state)
