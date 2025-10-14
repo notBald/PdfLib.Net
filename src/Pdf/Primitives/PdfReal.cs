@@ -24,14 +24,34 @@ namespace PdfLib.Pdf.Primitives
         /// </summary>
         internal override PdfType Type { get { return PdfType.Real; } }
 
+        /// <summary>
+        /// Precision and rounding mode
+        /// </summary>
+        private readonly int _mode;
+
+        /// <summary>
+        /// How the number is to be rounded when written to a file
+        /// </summary>
+        public PdfRoundingMode RoundingMode => (PdfRoundingMode)(_mode & 0xFF00);
+
+        /// <summary>
+        /// How many digits to use with this number when rounding mode is "Sigificant"
+        /// </summary>
+        public int Precision => _mode & 0xFF;
+
         #endregion
 
         #region Init
 
         /// <summary>
-        /// Constructor
+        /// Constructor with roundingmode set to auto
         /// </summary>
-        public PdfReal(double val) { Value = val; }
+        public PdfReal(double val) { Value = val; _mode = (int)PdfRoundingMode.Auto; }
+
+        /// <summary>
+        /// Constructor where precision is set to a fixed number of digits
+        /// </summary>
+        public PdfReal(double val, byte precision) { Value = val; _mode = (int)PdfRoundingMode.Significant | precision; }
 
         #endregion
 
@@ -65,7 +85,7 @@ namespace PdfLib.Pdf.Primitives
         /// </summary>
         internal override void Write(PdfWriter write)
         {
-            write.WriteDouble(Value);
+            write.WriteDouble(Value, _mode);
         }
 
         internal override bool Equivalent(object obj)

@@ -47,28 +47,25 @@ namespace PdfLib.Write.Internal
         /// <summary>
         /// Precition of real strings
         /// </summary>
-        private string _precision = "0.###"; //"0.########"
+        private int _precision = 3;
         public const int DefaultRealPrecision = 3;
 
         /// <summary>
         /// Precision of real numbers
         /// </summary>
-        public int Precision
+        public uint Precision
         {
-            get { return _precision.Length - 2; }
+            get { return (uint) _precision; }
             set
             {
-                if (value != Precision)
-                {
-                    var prec = Math.Max(value, 14);
-                    var sb = new StringBuilder(2 + prec);
-                    sb.Append("0.");
-                    for (int c = 0; c < prec; c++)
-                        sb.Append("#");
-                    _precision = sb.ToString();
-                }
+                _precision = (int) Math.Min(value, 255);
             }
         }
+
+        /// <summary>
+        /// Rounding mode
+        /// </summary>
+        public PdfRoundingMode RoundingMode = PdfRoundingMode.Auto;
 
         /// <summary>
         /// How the pdf file should be generated
@@ -565,8 +562,47 @@ namespace PdfLib.Write.Internal
         /// <remarks>Named WriteDouble to seperate it from a byte</remarks>
         public void WriteDouble(double num)
         {
+            WriteDouble(num, (int)PdfRoundingMode.Auto);
+        }
+
+        /// <summary>
+        /// Writes a real.
+        /// </summary>
+        /// <remarks>Named WriteDouble to seperate it from a byte</remarks>
+        internal void WriteDouble(double num, int mode)
+        {
+            if (RoundingMode == PdfRoundingMode.Auto)
+                WriteDouble(num, (PdfRoundingMode)(mode & 0xFF00), mode & 0xFF);
+            else
+                WriteDouble(num, RoundingMode, _precision);
+        }
+
+        private void WriteDouble(double num, PdfRoundingMode mode, int prec)
+        {
             Padding(CharType.Name);
-            var b = Lexer.GetBytes(num.ToString(_precision, CultureInfo.InvariantCulture));
+            string s;
+
+            switch(mode)
+            {
+                case PdfRoundingMode.Tolerance:
+                    s = PdfNumberUtil.FormatTol(num, 1e-4, 0);
+                    break;
+
+                case PdfRoundingMode.RoundTrip:
+                    s = PdfNumberUtil.ExpandExponent(num.ToString("G17", CultureInfo.InvariantCulture));
+                    break;
+
+                case PdfRoundingMode.Significant:
+                //Auto simply rounds to the set precision
+                case PdfRoundingMode.Auto:
+                    s = PdfNumberUtil.FormatFixed(num, prec, true);
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+            }
+
+            var b = Lexer.GetBytes(s);
             _s.Write(b, 0, b.Length);
             _last = CharType.Name;
         }

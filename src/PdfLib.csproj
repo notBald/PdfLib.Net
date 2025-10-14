@@ -204,6 +204,7 @@
     <Compile Include="Pdf\Encryption\PdfCryptFilter.cs" />
     <Compile Include="Pdf\Encryption\StandarSecurityHandler.cs" />
     <Compile Include="Pdf\Internal\PdfLong.cs" />
+    <Compile Include="Pdf\Internal\PdfNumberUtil.cs" />
     <Compile Include="Pdf\Primitives\PdfPageLayoutEnum.cs" />
     <Compile Include="Pdf\Primitives\xSegCollection.cs" />
     <Compile Include="Pdf\Primitives\xStructsF.cs" />

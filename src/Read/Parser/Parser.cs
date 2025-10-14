@@ -518,11 +518,11 @@ namespace PdfLib.Read.Parser
                     {
                         var token = _lex.Token;
                         var i = token.IndexOf('.');
+                        int prec = 0;
                         if (i != -1)
-                        {
-                            _owner.RealPrecision = token.Length - i - 1;
-                        }
-                        return new PdfReal(double.Parse(token, System.Globalization.CultureInfo.InvariantCulture));
+                            _owner.RealPrecision = prec = token.Length - i - 1;
+                        
+                        return new PdfReal(double.Parse(token, System.Globalization.CultureInfo.InvariantCulture), (byte) prec);
                     }
                     return new PdfReal(_lex.GetReal());
 

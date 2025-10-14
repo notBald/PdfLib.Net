@@ -150,6 +150,12 @@ namespace PdfLib.Write
         }
 
         /// <summary>
+        /// How to round real numbers. Auto means that the settings of induvidual real
+        /// numbers is used.
+        /// </summary>
+        public PdfRoundingMode RoundingMode = PdfRoundingMode.Auto;
+
+        /// <summary>
         /// How the document is to be compressed
         /// </summary>
         public CompressionMode Compression = CompressionMode.Normal;
@@ -974,8 +980,11 @@ namespace PdfLib.Write
                     throw new NotImplementedException();
                 }
 
-                var writer = new PdfWriter(stream, SaveMode, PaddMode, Compression, head_version);
-                writer.Precision = RealPrecision;
+                var writer = new PdfWriter(stream, SaveMode, PaddMode, Compression, head_version) 
+                { 
+                    RoundingMode = RoundingMode,
+                    Precision = (uint) RealPrecision
+                };
                 writer.WriteHeader(head_version, is_binary);
 
                 #endregion
