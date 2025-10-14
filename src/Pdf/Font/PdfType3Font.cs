@@ -171,8 +171,13 @@ namespace PdfLib.Pdf.Font
 
         internal Type3Font Realize(Dictionary<string, RenderCMD[]> compiled_glyphs)
         {
+            //Todo: Adobe ignores fonts with invalid FontMatrix and substitute them with another font. 
+            var fm = FontMatrix;
+            if (!fm.HasInverse)
+                fm = xMatrix.Identity;
+
             //No need to use IFontFactory. No WPF dependecies here.
-            return new Type3Font(Widths, FontDescriptor, Encoding, compiled_glyphs, FontBBox, FontMatrix);
+            return new Type3Font(Widths, FontDescriptor, Encoding, compiled_glyphs, FontBBox, fm);
         }
 
         protected override rFont RealizeImpl<Path>(IFontFactory<Path> factory)
