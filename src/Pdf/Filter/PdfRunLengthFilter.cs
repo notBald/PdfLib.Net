@@ -59,6 +59,12 @@ namespace PdfLib.Pdf.Filter
                 if (b < 128)
                 {
                     b++;
+
+                    // Be forgiving for malformed/truncated streams: if a literal run reaches the end of
+                    // the buffer, we still emit the remaining bytes instead of throwing. Many real-world
+                    // PDFs omit the terminating EOD byte or end with partial data, and this decoder is
+                    // intentionally best-effort: it returns the bytes it could recover and logs a warning
+                    // rather than failing hard on a damaged stream.
                     if (nDecB + b >= data.Length)
                     {
                         dimg.Write(data, nDecB, data.Length - nDecB);

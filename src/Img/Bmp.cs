@@ -3,10 +3,7 @@ using PdfLib.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
-using System.Windows;
-using System.Windows.Media.Effects;
 
 namespace PdfLib.Img
 {
@@ -67,7 +64,7 @@ namespace PdfLib.Img
             public readonly ChunkyPixels Colors;
             public readonly Plane Alpha;
 
-            public ChunkyWithAlphaPlane(ChunkyPixels colors,  Plane alpha)
+            public ChunkyWithAlphaPlane(ChunkyPixels colors, Plane alpha)
                 : base(colors.Width, colors.Height)
             {
                 Colors = colors;
@@ -274,7 +271,7 @@ namespace PdfLib.Img
 
                                 for (int y = 0, p_pos = 0; y < h; y++, d_pos += stride_32, p_pos += stride_8)
                                 {
-                                    for(int x=0; x < stride_8; x+= 4)
+                                    for (int x = 0; x < stride_8; x += 4)
                                     {
                                         pxs[p_pos + x + 0] = _data[d_pos + x + b_pos];
                                         pxs[p_pos + x + 1] = _data[d_pos + x + g_pos];
@@ -387,7 +384,14 @@ namespace PdfLib.Img
             if (pal != null)
                 return new IndexedPixels(_head.Width, _head.Height, data, bpp, pal);
 
-            bool has_alpha = bpp % 3 != 0;
+            bool has_alpha = false;
+            if (pal != null && pal.HasAlpha)
+                has_alpha = true;
+            else if (_head.HasMask || _head.Compression == COMPRESSION.ALPHABITFIELDS)
+                has_alpha = _head.AlphaMask != 0;
+            else if (bpp == 32 && _head is Win_v3_header && _head.AlphaMask != 0)
+                has_alpha = true;
+
             int bpc = bpp;
             if (has_alpha)
             {
@@ -609,7 +613,7 @@ namespace PdfLib.Img
                             {
                                 throw new NotImplementedException("BMP BPP: " + bpp);
                             }
-                            
+
                             var planes = new Planes(w, h, comps);
 
                             if (!perfer_planes && r_bpc == b_bpc && r_bpc == g_bpc)
@@ -619,7 +623,7 @@ namespace PdfLib.Img
                                 var pls = planes.Components;
                                 for (int y = 0, p_pos = 0; y < h; y++, p_pos++)
                                 {
-                                    for(int x = 0; x < w; x++)
+                                    for (int x = 0; x < w; x++)
                                     {
                                         bw.Write(pls[2].Subpixels[p_pos], r_bpc);
                                         bw.Write(pls[1].Subpixels[p_pos], r_bpc);
@@ -798,16 +802,27 @@ namespace PdfLib.Img
                 header = new OS2_v1_header(buffer);
             }
 
-            CLUT pal;
+            CLUT pal = null;
             int palette_size = (int)(offset - 14 - 4 - header_size);
-            if (palette_size / header.NColors == 4)
+            if (header.NColors > 0 && palette_size > 0)
             {
-                //This is a RGBA32 palette. OS2 images can use a RGB24 palette
-                buffer = new byte[palette_size];
-                sr.ReadEx(buffer, 0, buffer.Length);
-                pal = new RGBA32Palette(buffer);
+                long expected4 = (long)header.NColors * 4;
+                long expected3 = (long)header.NColors * 3;
+                if (palette_size == expected4)
+                {
+                    buffer = new byte[palette_size];
+                    sr.ReadEx(buffer, 0, buffer.Length);
+                    pal = new RGBA32Palette(buffer);
+                }
+                else if (palette_size == expected3)
+                {
+                    // OS/2 and other BMP variants may use 24-bit RGB palette entries.
+                    // For now, avoid misclassifying them as RGBA32; skip the palette rather than decoding garbage.
+                    // A future improvement could add a dedicated RGB24Palette class.
+                    if (palette_size > 0)
+                        sr.Position += palette_size;
+                }
             }
-            else pal = null;
 
             if (sr.Position != offset)
                 sr.Position = start + offset;
@@ -816,10 +831,14 @@ namespace PdfLib.Img
             {
                 case COMPRESSION.BITFIELDS:
                 case COMPRESSION.RGB:
+                    if (header.RequiredSize <= 0 || header.RequiredSize > 256 * 1024 * 1024)
+                        throw new InvalidDataException("BMP pixel data size is invalid or too large.");
                     buffer = new byte[header.RequiredSize];
                     break;
                 default:
                     Debug.Assert(header.Size == sr.Length - offset - start); //Nothing need to be wrong (file can have junk data), but probably is.
+                    if (header.Size <= 0 || header.Size > 256 * 1024 * 1024)
+                        throw new InvalidDataException("BMP pixel data size is invalid or too large.");
                     buffer = new byte[header.Size];
                     break;
             }
@@ -1019,7 +1038,7 @@ namespace PdfLib.Img
             public override uint AlphaMask => StreamReaderEx.ReadUIntLE(48, _data);
 
             public Win_v3_header(byte[] data)
-                :base(data)
+                : base(data)
             { }
         }
 
@@ -1071,8 +1090,8 @@ namespace PdfLib.Img
             /// <summary>
             /// True if this palette has colors other than shades of gray
             /// </summary>
-            public bool HasColor 
-            { 
+            public bool HasColor
+            {
                 get
                 {
                     foreach (IntColor color in this)
@@ -1164,6 +1183,23 @@ namespace PdfLib.Img
                     return colors;
                 }
             }
+            //This code is the correct variant of the one above, but slower.
+            //public override IntColor[] AlphaColors
+            //{
+            //    get
+            //    {
+            //        var colors = new IntColor[NAlpha];
+            //        int outputIndex = 0;
+            //        for (int entryIndex = 0; entryIndex < NColors; entryIndex++)
+            //        {
+            //            var color = this[entryIndex];
+            //            if (color.Alpha< 0xFF)
+            //                colors[outputIndex++] = color;
+            //        }
+            //        return colors;
+            //    }
+            //}
+
             public override IntColor this[int index]
             {
                 get
