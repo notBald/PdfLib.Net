@@ -35,7 +35,7 @@ namespace PdfLib.Pdf.Primitives
         public PdfRoundingMode RoundingMode => (PdfRoundingMode)(_mode & 0xFF00);
 
         /// <summary>
-        /// How many digits to use with this number when rounding mode is "Sigificant"
+        /// How many digits to use with this number when rounding mode is "Significant"
         /// </summary>
         public int Precision => _mode & 0xFF;
 
@@ -43,20 +43,27 @@ namespace PdfLib.Pdf.Primitives
 
         #region Init
 
+        private static void EnsureFinite(double x)
+        {
+            if (double.IsNaN(x) || double.IsInfinity(x))
+                throw new PdfNotSupportedException("PDF numbers cannot be NaN or Infinity.");
+        }
+
+
         /// <summary>
         /// Constructor with roundingmode set to auto
         /// </summary>
-        public PdfReal(double val) { Value = val; _mode = (int)PdfRoundingMode.Auto; }
+        public PdfReal(double val) { EnsureFinite(val); Value = val; _mode = (int)PdfRoundingMode.Auto; }
 
         /// <summary>
         /// Constructor where precision is set to a fixed number of digits
         /// </summary>
-        public PdfReal(double val, byte precision) { Value = val; _mode = (int)PdfRoundingMode.Significant | precision; }
+        public PdfReal(double val, byte precision) { EnsureFinite(val); Value = val; _mode = (int)PdfRoundingMode.Significant | precision; }
 
         #endregion
 
         /// <summary>
-        /// Gets integer as integer
+        /// Conversion to integer is not supported
         /// </summary>
         public override int GetInteger() { throw new PdfCastException(ErrSource.Numeric, PdfType.Integer, ErrCode.RealToInt); }
 
@@ -100,7 +107,7 @@ namespace PdfLib.Pdf.Primitives
         }
 
         /// <summary>
-        /// String representation
+        /// String representation, can emit scientific notation. 
         /// </summary>
         public override string ToString()
         {

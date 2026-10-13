@@ -275,7 +275,7 @@ namespace PdfLib.Pdf.ColorSpace
             double G = -X * 0.9692660 + Y * 1.8760108 + Z * 0.0415560;
             double B = X * 0.0556434 - Y * 0.2040259 + Z * 1.0572252;
 
-            //Gamut correction. 
+            //Gamut correction. (Corrects for numerical inaccuracies in the above code)
             R /= (3.2404542 - 1.5371385 - 0.4985314);
             G /= (-0.9692660 + 1.8760108 + 0.0415560);
             B /= (0.0556434 - 0.2040259 + 1.0572252);
@@ -295,7 +295,7 @@ namespace PdfLib.Pdf.ColorSpace
                                 Math.Sqrt(G),
                                 Math.Sqrt(B));
 
-            //const double Gamma = 1d / 2.1;
+            //const double Gamma = 1d / 2.2;
             //return new DblColor(Math.Pow(R, Gamma),
             //        Math.Pow(G, Gamma),
             //        Math.Pow(B, Gamma));

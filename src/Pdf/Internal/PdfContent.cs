@@ -169,6 +169,10 @@ namespace PdfLib.Pdf.Internal
             : base(items, PdfType.Content)
         { }
 
+        public PdfContentArray(PdfContent content)
+            : this(new PdfItem[] { new TempReference(content) }, false, null)
+        { }
+
         #endregion
 
         #region Add methods

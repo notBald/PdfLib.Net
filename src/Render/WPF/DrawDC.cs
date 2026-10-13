@@ -584,7 +584,19 @@ namespace PdfLib.Render.WPF
             Matrix m = new Matrix(xm.M11, xm.M12, xm.M21, xm.M22, xm.OffsetX, xm.OffsetY);
             var mt = new MatrixTransform(m);
             mt.Freeze();
+
+#if ALPHA_HACK
+            if (_cs.ca != 1)
+                _rs.dc.Pop();
+#endif
+
             _rs.dc.PushTransform(mt);
+
+#if ALPHA_HACK
+            if (_cs.ca != 1)
+                _rs.dc.PushOpacity(_cs.ca);
+#endif
+
             _cs.dc_pos++;
             _cs.CTM.Prepend(m);
             _rs.new_pen = true;

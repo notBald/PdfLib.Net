@@ -1,11 +1,12 @@
 ﻿#define INCLUDE_BBOX
-using System;
-using System.Collections.Generic;
-using System.Text;
-using PdfLib.Res;
 using PdfLib.Pdf.Internal;
 using PdfLib.Pdf.Primitives;
+using PdfLib.Res;
 using PdfLib.Util;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace PdfLib.Pdf.Font
 {
@@ -178,12 +179,29 @@ namespace PdfLib.Pdf.Font
         { SubstituteFont = substs; _symbolic = symbolic; }
 
         /// <summary>
-        /// Creates AFM from a string
+        /// Creates AFM from a string. If the string is less than 20 characters it is assumed to be a font name and the built in AFM is used.
         /// </summary>
         /// <param name="afm">AdobeFontMetrix string</param>
         public AdobeFontMetrixs(string afm)
         {
-            Parse(new System.IO.StringReader(afm), this);
+            if (afm == null) throw new ArgumentNullException();
+            TextReader tm = null;
+
+            if (afm.Length < 20)
+            {
+                //Assumes this is a built in font
+                var fnt = IsPerfectFit(afm);
+
+                var name = fnt.ResName;
+
+                if (name != null)
+                    tm = StrRes.GetResource(name);
+            }
+
+            if (tm == null)
+                tm = new StringReader(afm);
+
+            Parse(tm, this);
             _encoding = Enc.Standar;
         }
 
@@ -875,5 +893,53 @@ namespace PdfLib.Pdf.Font
         public bool PerfectFit, PreferTrueType;
         public AFMFont(string name, bool i, bool b, bool o, bool bf)
         { Name = name; Italic = i; Bold = b; Oblique = o; PerfectFit = bf; }
+
+        /// <summary>
+        /// Name of the resource that contains the AFM data for this font, null if no built in font exists
+        /// </summary>
+        internal string ResName
+        {
+            get
+            {
+                switch (Name)
+                {
+                    case "helvetica":
+                        if (Italic || Oblique)
+                        {
+                            if (Bold)
+                                return "Font.AFM.Helvetica-BoldOblique.afm";
+                            return "Font.AFM.Helvetica-Oblique.afm";
+                        }
+                        if (Bold)
+                            return "Font.AFM.Helvetica-Bold.afm";
+                        return "Font.AFM.Helvetica.afm";
+                    case "courier":
+                        if (Italic || Oblique)
+                        {
+                            if (Bold)
+                                return "Font.AFM.Courier-BoldOblique.afm";
+                            return "Font.AFM.Courier-Oblique.afm";
+                        }
+                        if (Bold)
+                            return "Font.AFM.Courier-Bold.afm";
+                        return "Font.AFM.Courier.afm";
+                    case "times":
+                        if (Italic || Oblique)
+                        {
+                            if (Bold)
+                                return "Font.AFM.Times-BoldItalic.afm";
+                            return "Font.AFM.Times-Italic.afm";
+                        }
+                        if (Bold)
+                            return "Font.AFM.Times-Bold.afm";
+                        return "Font.AFM.Times-Roman.afm";
+                    case "symbol":
+                        return "Font.AFM.Symbol.afm";
+                    case "zapfdingbats":
+                        return "Font.AFM.ZapfDingbats.afm";
+                }
+                return null;
+            }
+        }
     }
 }
