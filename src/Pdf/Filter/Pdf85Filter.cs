@@ -40,7 +40,7 @@ namespace PdfLib.Pdf.Filter
             //string debug = PdfHexFilter.HexDump(data);
             int write_pos = 0;
             int[] ba = new int[5];
-            int bi;
+            uint bi;
 
             //This array need only be 4/5 the size of the original array,
             //as a85 produces 5 bytes per 4 bytes of data.
@@ -89,12 +89,12 @@ namespace PdfLib.Pdf.Filter
 
                                 if (i < 5)
                                 {
-                                    //Apparently, EOD is part of the data. 
+                                    //Apparently, EOD is part of the data sometimes (but this it is not part of the specs). 
                                     ba[i] = 126;
                                     for (int k = i + 1; k < 5; k++) ba[k] = 0;
                                 }
-                                bi = ba[0] * 85 * 85 * 85 * 85 + ba[1] * 85 * 85 * 85 + ba[2] * 85 * 85
-                                     + ba[3] * 85 + ba[4];
+                                bi = (uint)ba[0] * 85 * 85 * 85 * 85 + (uint)ba[1] * 85 * 85 * 85 + (uint)ba[2] * 85 * 85
+                                     + (uint)ba[3] * 85 + (uint)ba[4];
                                 dout[write_pos++] = (byte)((bi >> 24) & 0xFF);
                                 dout[write_pos++] = (byte)((bi >> 16) & 0xFF);
                                 dout[write_pos++] = (byte)((bi >> 8) & 0xFF);
@@ -112,8 +112,8 @@ namespace PdfLib.Pdf.Filter
                 }
                 #endregion
 
-                bi = ba[0]*85*85*85*85 + ba[1]*85*85*85 + ba[2]*85*85
-                     + ba[3]*85 + ba[4];
+                bi = (uint)ba[0]*85*85*85*85 + (uint)ba[1]*85*85*85 + (uint)ba[2]*85*85
+                     + (uint)ba[3]*85 + (uint)ba[4];
                 dout[write_pos++] = (byte)((bi >> 24) & 0xFF);
                 dout[write_pos++] = (byte)((bi >> 16) & 0xFF);
                 dout[write_pos++] = (byte)((bi >> 8) & 0xFF);
