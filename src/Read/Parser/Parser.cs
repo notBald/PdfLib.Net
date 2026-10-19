@@ -578,10 +578,26 @@ namespace PdfLib.Read.Parser
             if (_lex.PeekNextKeyword(Chars.s, Chars.t, PdfKeyword.BeginStream))
             {
                 PdfItem l;
+                int length;
+
                 if (!cat.TryGetValue("Length", out l))
-                    //Should perhaps instead search for "EndStream"
-                    throw new PdfStreamCorruptException(ErrSource.Parser);
-                int length = l.GetInteger();
+                //Search for "EndStream"
+                {
+                    //Todo: Search beyond 512 bytes
+                    byte[] search = new byte[512];
+                    _lex.Read(search, _lex.Position + 1, search.Length); //Adds +1 to skip \n
+                    string txt = Lexer.GetString(search);
+                    int idx = txt.IndexOf("endstream");
+                    if (idx != -1)
+                    {
+                        length = idx;
+                        cat.Add("Length", new PdfInt(length));
+                    }
+                    else
+                        throw new PdfStreamCorruptException(ErrSource.Parser);
+                }
+                else
+                    length = l.GetInteger();
                 var range = _lex.GetStreamRange(length);
                 try
                 {

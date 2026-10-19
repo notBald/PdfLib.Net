@@ -93,15 +93,15 @@ namespace PdfLib.Pdf.Internal
         /// temtation to (ab)use it instead of getting the HL stuff right.
         /// (At the cost of hacks like this popping up here and there.)
         /// </remarks>
-        internal PdfReference RootRef 
-        { 
-            get 
-            {                
+        internal PdfReference RootRef
+        {
+            get
+            {
                 var ret = _elems["Root"];
                 if (!(ret is PdfReference))
                     throw new PdfReadException(ErrSource.General, PdfType.Trailer, ErrCode.IsCorrupt);
-                return (PdfReference) ret; 
-            } 
+                return (PdfReference)ret;
+            }
         }
 
         #endregion
@@ -208,7 +208,7 @@ namespace PdfLib.Pdf.Internal
                                 //if this is a catalog (there can be more than one, in which case we want the
                                 // last for reconstrucing the trailer)
                                 PdfItem item;
-                                if (cat.TryGetValue("Type", out item)) 
+                                if (cat.TryGetValue("Type", out item))
                                 {
                                     if (item is PdfName && item.GetString() == "Catalog")
                                     {
@@ -241,7 +241,7 @@ namespace PdfLib.Pdf.Internal
                     ((IDictRepair)t._elems).RepairSet("Size", new PdfInt(max_id + 1));
                 }
                 return t;
-            } 
+            }
             else if (catalog != null)
             {
                 if (catalog.Contains("Pages"))
@@ -268,12 +268,12 @@ namespace PdfLib.Pdf.Internal
             //now.
 
 
-            //Finds xref table. This isn't entierly trivial, as a goof few files prides
+            //Finds xref table. This isn't entierly trivial, as a good few files prides
             //themselves at making this difficult
             int xrefpos = FindOffset(lexer);
             if (xrefpos == -1)
             {
-                //todo: Try rebuilding the xref table.
+                //Rebuilding the xref table should be done by the caller.
                 throw new PdfLogException(ErrSource.Xref, PdfType.Trailer, ErrCode.Missing);
             }
             lexer.Position = xrefpos;
@@ -323,7 +323,7 @@ namespace PdfLib.Pdf.Internal
             //don't hit quite right.
             const int MAX_RETRIES = 2;
             int n_attempts = 0;
-            retry:
+        retry:
 
             lexer.SetNextToken();
             if (type != PdfType.Keyword ||
@@ -461,7 +461,7 @@ namespace PdfLib.Pdf.Internal
                         int obj_pos = l.GetInteger();
                         if (l.SetNextToken() != PdfType.Integer)
                             throw new PdfLogException(ErrSource.Xref, PdfType.Integer, ErrCode.UnexpectedToken);
-                        ushort obj_gen = (ushort) l.GetInteger();
+                        ushort obj_gen = (ushort)l.GetInteger();
                         if (l.SetNextToken() != PdfType.Keyword)
                             throw new PdfLogException(ErrSource.Xref, PdfType.Keyword, ErrCode.UnexpectedToken);
 
@@ -475,7 +475,7 @@ namespace PdfLib.Pdf.Internal
                             if (key[0] == 'f') { file.DeleteObject(new PdfObjID(id, obj_gen)); continue; }
                             else throw new PdfLogException(ErrSource.Xref, PdfType.Keyword, ErrCode.Invalid);
                         }
-                            
+
 
                         var oid = new PdfObjID(id, obj_gen);
 
@@ -635,7 +635,7 @@ namespace PdfLib.Pdf.Internal
                         try
                         {
                             var trailer = CreateFromTable(file, lexer);
-                            
+
                             //The trailer parsed. Yay!
                             table_trailers.Add(trailer);
                         }

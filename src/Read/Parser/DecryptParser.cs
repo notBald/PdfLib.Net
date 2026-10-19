@@ -315,7 +315,20 @@ namespace PdfLib.Read.Parser
             {
                 PdfItem l;
                 if (!cat.TryGetValue("Length", out l))
-                    throw new PdfReadException(ErrSource.Parser, PdfType.Stream, ErrCode.Invalid);
+                {
+                    //Todo: Search beyond 512 bytes
+                    byte[] search = new byte[512];
+                    _lex.Read(search, _lex.Position + 1, search.Length); //Adds +1 to skip \n
+                    string txt = Lexer.GetString(search);
+                    int idx = txt.IndexOf("endstream");
+                    if (idx != -1)
+                    {
+                        l = new PdfInt(idx);
+                        cat.Add("Length", l);
+                    }
+                    else
+                        throw new PdfReadException(ErrSource.Parser, PdfType.Stream, ErrCode.Invalid);
+                }
 
                 //Length can be a reference, in which case the encryption key will be changed.
                 int length;

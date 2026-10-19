@@ -67,7 +67,7 @@ namespace PdfLib.Pdf.Filter
                 int b = data[c];
                 if (b == EOD)
                 {
-                    if ((c & 1) == 1)
+                    if (shift)
                     {
                         //If a > sign appear at a odd number, it counts as a 
                         //zero.
@@ -85,7 +85,7 @@ namespace PdfLib.Pdf.Filter
 
                         //This is an error, as there is no whitespace
                         //this high
-                        if (b > 15) 
+                        if (b > 15)
                             throw new PdfFilterException(Internal.PdfType.Integer, ErrCode.OutOfRange);
                     }
                 }
@@ -115,15 +115,17 @@ namespace PdfLib.Pdf.Filter
             var hold = source.Position;
             source.Position = startpos;
             var rec = new Util.RecordStream(4096, source);
-            int _last = 0, _cur;
+            int _cur;
             while (true)
             {
                 _cur = rec.ReadByte();
                 if (_cur == -1) break;
                 const int END = (int)PdfLib.Read.Chars.Greater;
-                if (_last == END && _cur == END)
+                if (_cur == END)
+                    // Subtlety: The terminating '>' is included because it is
+                    // part of the ASCIIHexDecode data stream and is consumed
+                    // by the decoder.
                     return rec.ToArray();
-                _last = _cur;
             }
             source.Position = hold;
             return null;
@@ -148,7 +150,7 @@ namespace PdfLib.Pdf.Filter
             int ret_size = data.Length + (data.Length - 1) / 2;
 
             var ret = new byte[ret_size];
-            for (int c=0, write_pos = 0; ; )
+            for (int c = 0, write_pos = 0; ;)
             {
                 ret[write_pos++] = data[c++];
                 ret[write_pos++] = data[c++];
@@ -165,7 +167,7 @@ namespace PdfLib.Pdf.Filter
         public static byte[] WhiteEncode(byte[] data)
         {
             data = Encode(data);
-            
+
             //Takes the data length, + white space needed between double bytes + white space
             //needed between every 8 bytes. The -1, +6 offsets is to add/remove whitespace
             //at the right spots. I.e. don't want whitespace after 2 bytes, but want one extra
@@ -174,7 +176,7 @@ namespace PdfLib.Pdf.Filter
 
             var ret = new byte[ret_size];
             bool again = true; int write_pos = 0;
-            for (int c = 0; c < data.Length; )
+            for (int c = 0; c < data.Length;)
             {
                 Debug.Assert(write_pos % 25 == 0);
                 Debug.Assert(c % 16 == 0);
@@ -217,7 +219,7 @@ namespace PdfLib.Pdf.Filter
         public static byte[] FormatEncode(byte[] data, int[] format, bool space_sep)
         {
             if (format.Length == 0) return new byte[0];
-            byte sep = (byte) ((space_sep) ? 32 : 45);
+            byte sep = (byte)((space_sep) ? 32 : 45);
 
             data = Encode(data);
 
@@ -249,7 +251,7 @@ namespace PdfLib.Pdf.Filter
                 throw new NotImplementedException("needs a +1 depending on the fraction");
                 //The fraction is the "unfinished last line, i.e +1 if the line is there.
             }
-            if (format[format.Length-1] == 0 && format.Length != 1)
+            if (format[format.Length - 1] == 0 && format.Length != 1)
             {
                 ret_size += num_lines;
                 throw new NotImplementedException("needs a +1 depending on the fraction");
@@ -273,7 +275,7 @@ namespace PdfLib.Pdf.Filter
                 new_field_size += foc + (foc - 1) / 2 + 3; //+3 for " - "
             }
             if (!found && fraction != 0 && fraction < org_field_size)
-                offest = (format.Length-1) * 2;
+                offest = (format.Length - 1) * 2;
             ret_size += offest;
 
             #endregion
@@ -283,7 +285,7 @@ namespace PdfLib.Pdf.Filter
             var ret = new byte[ret_size];
             int write_pos = 0;
             int field_pos = 0;
-            for (int c = 0; c < data.Length; )
+            for (int c = 0; c < data.Length;)
             {
                 //Debug.Assert(write_pos % new_field_size == 0);
                 Debug.Assert(c % org_field_size == 0);
