@@ -18,23 +18,25 @@ namespace PdfLib.Compose.Layout
     /// worrying about cleaning up listeners.
     /// 
     /// This isn't a perfect solution, but it's not without advantages. You can create
-    /// a complex tree, this way, and then add it to a rooted tree. Only then will a
+    /// a complex tree this way, and then add it to a rooted tree. Only then will a
     /// layout pass be done.
     /// </remarks>
     public sealed class cRoot : cDiv
     {
-        /// <summary>
-        /// Changing this is not a problem. No need to redo layout, as it only impacts apperance.
-        /// </summary>
-        private double _min_prec = 0.001;
+        private int _precision_digits = 3;
 
-        public double MinPrecision
+        /// <summary>
+        /// Number of decimal digits used when calculating the layout tolerance.
+        /// Changing this does not require a new layout pass; it only affects
+        /// rendering precision.
+        /// </summary>
+        public int PrecisionDigits
         {
-            get { return _min_prec; }
-            //Todo: allow this to be set. Currently "MakePage" overrides this.
+            get { return _precision_digits; }
+            set { _precision_digits = value; }
         }
 
-        protected override double MinPrec { get { return _min_prec; } }
+        protected override double MinPrec { get { return 1 / Math.Pow(10, _precision_digits); } }
 
         public cRoot(cStyle style)
             : base(style)
@@ -64,8 +66,9 @@ namespace PdfLib.Compose.Layout
             var page = new PdfPage(VisFullWidth, VisFullHeight);
             using (var draw = new DrawPage(page))
             {
+                draw.Precision = _precision_digits;
+
                 cRenderState state = new cRenderState();
-                _min_prec = 1 / Math.Pow(10, draw.Precision);
                 Render(draw, ref state, this);
             }
             return page;

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using PdfLib.Pdf.Font;
-using PdfLib.Pdf.Internal;
+﻿using PdfLib.Pdf.Font;
 using PdfLib.Pdf.Primitives;
-using PdfLib.Write.Internal;
 using PdfLib.Render.Font;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace PdfLib.Compose.Font
 {
@@ -24,9 +20,9 @@ namespace PdfLib.Compose.Font
     {
         #region Variables
 
-        private readonly MBuiltInFont _meassure;
-        private Dictionary<char, string> _unicode_cmap;
-        private Dictionary<char, byte> _unicode_to_cc;
+        private readonly MBuiltInFont _measure;
+        private readonly Dictionary<char, string> _unicode_cmap;
+        private readonly Dictionary<char, byte> _unicode_to_cc;
         private readonly PdfType1Font _font;
         private readonly PdfFontDescriptor _fd;
         private rFont _render;
@@ -34,6 +30,13 @@ namespace PdfLib.Compose.Font
         #endregion
 
         #region Properties
+
+        /// <remark>
+        /// Baseline-to-baseline line height.
+        ///
+        /// Built-in Type 1 fonts use a fixed 1000-unit em square. We therefore
+        /// use 1000d as a constant in the properties below.
+        /// </remark>
 
         public override double Ascent { get { return _fd.Ascent / 1000d; } }
         public override double CapHeight { get { return _fd.CapHeight / 1000d; } }
@@ -101,12 +104,12 @@ namespace PdfLib.Compose.Font
             var afm = AdobeFontMetrixs.Create(_font.BaseFont, _font.Encoding, false);
             if (afm == null)
             {
-                //Todo: cFont.Create(....).
                 var name = font.BaseFont;
                 int i = name.IndexOf('+');
                 if (i != -1)
                     name = name.Substring(i + 1);
                 var cf = cFont.Create(name);
+                //^ Throws if the font is not found
 
                 //Now create AFM for this font.
                 afm = new AdobeFontMetrixs(AdobeFontMetrixs.Create(cf, font.Encoding));
@@ -132,12 +135,12 @@ namespace PdfLib.Compose.Font
                 }
             }
 
-            _meassure = new MBuiltInFont(afm);
+            _measure = new MBuiltInFont(afm);
         }
 
         internal override void InitRender(IFontFactory factory)
         {
-            _render = factory.CreateBuiltInFont(_font, Widths, _meassure.AFM, false);
+            _render = factory.CreateBuiltInFont(_font, Widths, _measure.AFM, false);
         }
 
         #endregion
@@ -154,7 +157,7 @@ namespace PdfLib.Compose.Font
             return 1;
         }
 
-        internal override void DissmissRender()
+        internal override void DismissRender()
         {
             _render.Dismiss();
         }
@@ -180,12 +183,12 @@ namespace PdfLib.Compose.Font
 
         public override chBox GetGlyphBox(char c)
         {
-            return _meassure.GetGlyphBox(_unicode_cmap[c]);
+            return _measure.GetGlyphBox(_unicode_cmap[c]);
         }
 
         public override chGlyph GetGlyphMetrix(char c)
         {
-            return _meassure.GetGlyphInfo(_unicode_cmap[c]);
+            return _measure.GetGlyphInfo(_unicode_cmap[c]);
         }
 
         public override double GetKerning(int from_gid, int to_gid)
@@ -205,7 +208,7 @@ namespace PdfLib.Compose.Font
 
         public override byte[] WriteTo(Stream target)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

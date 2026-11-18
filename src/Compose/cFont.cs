@@ -19,7 +19,7 @@ namespace PdfLib.Compose
     /// 
     ///    i.e. LoadGlyph("ABC");
     /// 
-    ///    Alternatly oine can call "GetGlyphMetrix" for each induvidual glyph
+    ///    Alternativly you can call "GetGlyphMetrix" for each induvidual glyph
     ///    
     /// 2. Encode string with the Encode(str) function
     /// </summary>
@@ -395,7 +395,7 @@ namespace PdfLib.Compose
 
         internal virtual void InitRenderNoCache(IFontFactory factory) => InitRender(factory);
         internal abstract void InitRender(IFontFactory factory);
-        internal abstract void DissmissRender();
+        internal abstract void DismissRender();
         internal abstract void DisposeRender();
 
         #endregion

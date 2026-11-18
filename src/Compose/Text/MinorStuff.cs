@@ -328,7 +328,7 @@ namespace PdfLib.Compose.Text
     ///  - PDF commands are outputted.
     ///  
     /// The problem with this aproach is that one may want quick reflowing of text.
-    /// With the current model all work has to be redone when one reflow.
+    /// With the current model all work has to be redone when you reflow.
     /// 
     /// Changing this from a "class" to a "stuct" and including the width of the
     /// object (sans Tc, Tw) would make faster reflwoing possible. One could also

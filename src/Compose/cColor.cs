@@ -105,8 +105,12 @@ namespace PdfLib.Compose
         public DblColor ToRGBColor() { return MyColorSpace.Converter.MakeColor(_color); }
 
         /// <summary>
-        /// Conver this color to another color space. Note,
-        /// won't work with the pattern color space.
+        /// Converts this color to another color space.
+        ///
+        /// Conversion from or to Pattern color spaces is not supported.
+        /// Pattern colors may be position-dependent (for example tiling or
+        /// shading patterns) and therefore cannot always be represented as a
+        /// single color value.
         /// </summary>
         /// <param name="cs">The color space to convert this color into</param>
         /// <returns>The same color or a new color with the given color space</returns>

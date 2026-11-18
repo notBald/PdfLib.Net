@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using PdfLib.Compose.Layout.Internal;
 using PdfLib.Pdf;
 using PdfLib.Pdf.Primitives;
 using PdfLib.Render;
-using PdfLib.Compose.Layout.Internal;
+using System;
 
 namespace PdfLib.Compose.Layout
 {
     /// <summary>
-    /// Encapsulates a PdfForm
+    /// Allows a PdfForm to participate in the layout system as a
+    /// fixed-size visual element.
     /// </summary>
     public class cForm : cBox
     {
@@ -99,6 +98,12 @@ namespace PdfLib.Compose.Layout
                         draw.DrawForm(_form);
                     else
                     {
+                        // Optimization: if the form is writable, scale it once by updating
+                        // its matrix rather than emitting an additional CTM every time it is
+                        // drawn.
+                        //
+                        // This is not ideal, as rendering now modifies state. Consider moving
+                        // this calculation to the FlowContent pass.
                         _form.Matrix = new xMatrix(VisContentWidth / size.Width, 0, 0, VisContentHeight / size.Height, 0, 0);
                         draw.DrawForm(_form);
                     }
@@ -111,9 +116,15 @@ namespace PdfLib.Compose.Layout
                     else
                     {
                         state.Save(draw);
-                        var mt = new xMatrix(1 / size.Width, 0, 0, 1 / size.Height, 0, 0);
-                        var ms = new xMatrix(VisContentWidth, 0, 0, VisContentHeight, 0, 0);
-                        draw.PrependCM(mt.Prepend(ms));
+
+                        // Normalize the form to unit dimensions, then scale to the target.
+                        // new xMatrix(VisContentWidth / size.Width, 0, 0, VisContentHeight / size.Height, 0, 0);
+                        //var mt = new xMatrix(1 / size.Width, 0, 0, 1 / size.Height, 0, 0);
+                        //var ms = new xMatrix(VisContentWidth, 0, 0, VisContentHeight, 0, 0);
+                        //mt.Prepend(ms)
+                        var mt = new xMatrix(VisContentWidth / size.Width, 0, 0, VisContentHeight / size.Height, 0, 0);
+
+                        draw.PrependCM(mt);
                         draw.DrawForm(_form);
                         state = state.Restore(draw);
                     }

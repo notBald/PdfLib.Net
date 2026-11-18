@@ -163,7 +163,7 @@ namespace PdfLib.Compose.Font
 
             public override void Dismiss()
             {
-                _font.DissmissRender();
+                _font.DismissRender();
             }
 
             public override void DisposeImpl()

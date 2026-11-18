@@ -251,7 +251,14 @@ namespace PdfLib.Pdf.Primitives
         }
 
         /// <summary>
-        /// Transforms a rectangle
+        /// Transforms a bounding rectangle.
+        ///
+        /// The returned rectangle is axis-aligned. If the transform
+        /// rotates or skews the rectangle, the result is the bounding
+        /// rectangle of the transformed geometry.
+        ///
+        /// Use Transform(xQuadrilateral) when the transformed corner
+        /// positions must be preserved.
         /// </summary>
         public xRect Transform(xRect r)
         {
@@ -278,17 +285,21 @@ namespace PdfLib.Pdf.Primitives
         }
 
         /// <summary>
-        /// Transforms a size
-        /// 
-        ///    [ M11 M21 Ox ]   [ x ]   [ x' ]
-        ///    [ M12 M22 Oy ] X [ y ] = [ y' ]
-        ///    [  0   0   1 ]   [ 1 ]   [ 1  ]
+        /// Transforms a size (vector).
+        ///
+        /// Unlike points, sizes are not affected by translation.
+        /// Only the scale, skew and rotation components of the
+        /// matrix are applied.
+        ///
+        ///    [ M11 M21 Ox ]   [ w ]   [ w' ]
+        ///    [ M12 M22 Oy ] X [ h ] = [ h' ]
+        ///    [  0   0   1 ]   [ 0 ]   [ 0  ]
         /// </summary>
-        public xSize Transform(xSize p)
+        public xSize Transform(xSize size)
         {
-            //Rows are multiplied with columns.
-            return new xSize(M11 * p.Width + M21 * p.Height + OffsetX,
-                             M12 * p.Width + M22 * p.Height + OffsetY);
+            return new xSize(
+                M11 * size.Width + M21 * size.Height,
+                M12 * size.Width + M22 * size.Height);
         }
 
         /// <summary>
@@ -360,14 +371,26 @@ namespace PdfLib.Pdf.Primitives
 
         #region Overrides recommended for value types
 
-        public override int GetHashCode() 
-        { 
-            return M11.GetHashCode() + 
-                   M12.GetHashCode() + 
-                   M21.GetHashCode() + 
-                   M22.GetHashCode() + 
-                   OffsetX.GetHashCode() + 
-                   OffsetY.GetHashCode(); 
+        /// <summary>
+        /// Hash code implementation required by value-type conventions.
+        ///
+        /// xMatrix is primarily a transport and math helper type and is not
+        /// expected to be used as a dictionary key. The implementation favors
+        /// simplicity over hash distribution quality.
+        /// </summary>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + M11.GetHashCode();
+                hash = hash * 23 + M12.GetHashCode();
+                hash = hash * 23 + M21.GetHashCode();
+                hash = hash * 23 + M22.GetHashCode();
+                hash = hash * 23 + OffsetX.GetHashCode();
+                hash = hash * 23 + OffsetY.GetHashCode();
+                return hash;
+            }
         }
         public override bool Equals(object obj) => obj is xMatrix m && Equals(m);
         public bool Equals(xMatrix x)
@@ -391,29 +414,40 @@ namespace PdfLib.Pdf.Primitives
         #endregion
     }
 
-    public struct x3x3Matrix
+    /// <summary>
+    /// 3x3 matrix.
+    ///
+    /// Used for operations that cannot be represented by xMatrix's
+    /// affine 2D transform. This is intentionally a lightweight
+    /// utility type rather than a complete linear algebra library.
+    /// </summary>
+    public struct x3x3Matrix : IEquatable<x3x3Matrix>
     {
         #region Variables and properties
 
-        public readonly double M11, M12, M13, M21, M22, M23, M31, M32, M33;
+        public readonly double M11, M12, M13;
+        public readonly double M21, M22, M23;
+        public readonly double M31, M32, M33;
 
-        public bool IsIdentity
-        {
-            get
-            {
-                return M11 == 1 && M12 == 0 && M13 == 0 && 
-                       M21 == 0 && M22 == 1 && M23 == 0 && 
-                       M31 == 0 && M32 == 0 && M33 == 1;
-            }
-        }
+        public bool IsIdentity =>
+            M11 == 1 && M12 == 0 && M13 == 0 &&
+            M21 == 0 && M22 == 1 && M23 == 0 &&
+            M31 == 0 && M32 == 0 && M33 == 1;
 
-        public static x3x3Matrix Identity { get { return new x3x3Matrix(1, 0, 0, 0, 1, 0, 0, 0, 1); } }
+        public static x3x3Matrix Identity =>
+            new x3x3Matrix(
+                1, 0, 0,
+                0, 1, 0,
+                0, 0, 1);
 
         #endregion
 
         #region Init
 
-        public x3x3Matrix(double m11, double m12, double m13, double m21, double m22, double m23, double m31, double m32, double m33)
+        public x3x3Matrix(
+            double m11, double m12, double m13,
+            double m21, double m22, double m23,
+            double m31, double m32, double m33)
         {
             M11 = m11;
             M12 = m12;
@@ -446,12 +480,65 @@ namespace PdfLib.Pdf.Primitives
 
         public x3Vector Transform(x3Vector v)
         {
-            return new x3Vector
-            (
+            return new x3Vector(
                 M11 * v.X + M12 * v.Y + M13 * v.Z,
                 M21 * v.X + M22 * v.Y + M23 * v.Z,
-                M31 * v.X + M22 * v.Y + M33 * v.Z
-            );
+                M31 * v.X + M32 * v.Y + M33 * v.Z);
+        }
+
+        #endregion
+
+        #region Overrides recommended for value types
+
+        public bool Equals(x3x3Matrix other)
+        {
+            return
+                M11 == other.M11 &&
+                M12 == other.M12 &&
+                M13 == other.M13 &&
+                M21 == other.M21 &&
+                M22 == other.M22 &&
+                M23 == other.M23 &&
+                M31 == other.M31 &&
+                M32 == other.M32 &&
+                M33 == other.M33;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is x3x3Matrix m && Equals(m);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+
+                hash = hash * 23 + M11.GetHashCode();
+                hash = hash * 23 + M12.GetHashCode();
+                hash = hash * 23 + M13.GetHashCode();
+
+                hash = hash * 23 + M21.GetHashCode();
+                hash = hash * 23 + M22.GetHashCode();
+                hash = hash * 23 + M23.GetHashCode();
+
+                hash = hash * 23 + M31.GetHashCode();
+                hash = hash * 23 + M32.GetHashCode();
+                hash = hash * 23 + M33.GetHashCode();
+
+                return hash;
+            }
+        }
+
+        public static bool operator ==(x3x3Matrix left, x3x3Matrix right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(x3x3Matrix left, x3x3Matrix right)
+        {
+            return !left.Equals(right);
         }
 
         #endregion
@@ -474,6 +561,7 @@ namespace PdfLib.Pdf.Primitives
 
         #endregion
     }
+
 
     [DebuggerDisplay("Point: {X},{Y}")]
     public struct xPoint
@@ -1143,6 +1231,16 @@ namespace PdfLib.Pdf.Primitives
         #endregion
     }
 
+    /// <summary>
+    /// Axis-aligned bounding rectangle (AABB).
+    /// </summary>
+    /// <remarks>
+    /// This is the backend-neutral equivalent of PdfRectangle and is
+    /// defined by its minimum and maximum coordinates.
+    ///
+    /// xRect is always axis-aligned. Use xQuadrilateral when the exact
+    /// corner positions of a transformed rectangle must be preserved.
+    /// </remarks>
     public struct xRect
     {
         #region Variables and properties
@@ -1284,11 +1382,58 @@ namespace PdfLib.Pdf.Primitives
     }
 
     [DebuggerDisplay("Size: {Width},{Height}")]
-    public struct xSize
+    public struct xSize : IEquatable<xSize>
     {
         public readonly double Width;
         public readonly double Height;
-        public xSize(double width, double height) { Width = width; Height = height; }
+
+        public xSize(double width, double height)
+        {
+            Width = width;
+            Height = height;
+        }
+
+        public bool Equals(xSize other)
+        {
+            return Width == other.Width &&
+                   Height == other.Height;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is xSize other && Equals(other);
+        }
+
+        /// <summary>
+        /// Required by value-type equality conventions.
+        /// xSize is rarely used as a hash key, but equal sizes must
+        /// produce identical hash codes.
+        /// </summary>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + Width.GetHashCode();
+                hash = hash * 23 + Height.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(xSize left, xSize right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(xSize left, xSize right)
+        {
+            return !left.Equals(right);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Size: {0},{1}", Width, Height);
+        }
     }
 
     [DebuggerDisplay("Line: {Start.X},{Start.Y} -> {End.X},{End.Y}")]
@@ -1428,7 +1573,7 @@ namespace PdfLib.Pdf.Primitives
         }
     }
 
-    public struct xDashStyle
+    public struct xDashStyle : IEquatable<xDashStyle>
     {
         public readonly double Phase;
         public readonly double[] Dashes;
@@ -1449,10 +1594,21 @@ namespace PdfLib.Pdf.Primitives
 
         #region Overrides recommended for value types
 
-        /// <summary>
-        /// The GetHashCode formula is just a quick hax, if it's actually needed take a much closer look
-        /// </summary>
-        public override int GetHashCode() { return (int)Phase ^ (int)Dashes.Length; }
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = Phase.GetHashCode();
+
+                if (Dashes != null)
+                {
+                    for (int i = 0; i < Dashes.Length; i++)
+                        hash = hash * 23 + Dashes[i].GetHashCode();
+                }
+
+                return hash;
+            }
+        }
         public override bool Equals(object obj)
         {
             if (obj is xDashStyle)
@@ -1468,23 +1624,21 @@ namespace PdfLib.Pdf.Primitives
         }
         public static bool operator !=(xDashStyle p1, xDashStyle p2)
         {
-            return p1.Phase != p2.Phase && !Util.ArrayHelper.ArraysEqual<double>(p1.Dashes, p2.Dashes);
+            return !(p1 == p2);
         }
         public override string ToString()
         {
-            return string.Format("Dashes: {0}", Phase);
+            return string.Format("Phase: {0}, Count: {1}",  Phase, Dashes?.Length ?? 0);
         }
 
         #endregion
 
         public static bool Equals(xDashStyle? dash1, xDashStyle? dash2)
         {
-            // If both are null, or both are same instance, return true.
-            if (ReferenceEquals(dash1, dash2))
-                return true;
+            if (!dash1.HasValue)
+                return !dash2.HasValue;
 
-            // If one is null, but not both, return false.
-            if (dash1 == null || dash2 == null)
+            if (!dash2.HasValue)
                 return false;
 
             return dash1.Value == dash2.Value;

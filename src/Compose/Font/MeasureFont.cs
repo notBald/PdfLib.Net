@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-
-namespace PdfLib.Compose.Font
+﻿namespace PdfLib.Compose.Font
 {
     /// <summary>
     /// Base class for objects focused on taking meassurments of
@@ -29,7 +24,7 @@ namespace PdfLib.Compose.Font
         public abstract double CapHeight { get; }
 
         /// <summary>
-        /// Height from baseline down to lowest point
+        /// Height from baseline up to highest point
         /// </summary>
         public abstract double Ascent { get; }
 

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PdfLib.Compose.Layout.Internal
 {
@@ -9,7 +6,7 @@ namespace PdfLib.Compose.Layout.Internal
     /// This is the base class for all DOM objects. 
     /// </summary>
     /// <remarks>
-    /// It's needed to support cText classes, which are a bit different in how they are layed out.
+    /// A lower root than "box" is needed to support cText classes, which are a bit different in how they are layed out.
     /// </remarks>
     public abstract class cNode
     {
@@ -190,7 +187,7 @@ namespace PdfLib.Compose.Layout.Internal
          * 
          * However, a change in text style would then nessesiate invalidating all
          * children's layout affected by said change. The layout system do not 
-         * currently have any mechanisim for this.
+         * currently have any mechanism for this.
          * 
          * Regardless, we prefer to set text state related properties as far up
          * the tree as possible, as to not have to set font/size/color etc for
@@ -202,7 +199,7 @@ namespace PdfLib.Compose.Layout.Internal
          * about the most commonly used text state settings used by children are 
          * determined and set here.
          * 
-         * You still have to set those styles one each text object, but at least
+         * You still have to set those styles on each text object, but at least
          * the resulting PDF stream won't have a lot of needles qQ text changes.
          */
 
@@ -214,7 +211,6 @@ namespace PdfLib.Compose.Layout.Internal
         /// <summary>
         /// Adds text related statistics from this box.
         /// </summary>
-        /// <param name="stats"></param>
         internal abstract void AddStats(cTextStat stats);
 
         #endregion

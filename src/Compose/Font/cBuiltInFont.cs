@@ -223,7 +223,7 @@ namespace PdfLib.Compose.Font
             }
         }
 
-        internal override void DissmissRender()
+        internal override void DismissRender()
         {
             _wrapper.RenderFont.Dismiss();
         }

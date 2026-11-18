@@ -17,10 +17,14 @@
 //without those flags set.
 //#define INCLUDE_STRINGS
 
-//Workaround for bug in SumatraPDF viewer
+//Workaround for bug in SumatraPDF viewer.
+// Avoid assigning CIDs whose high byte is 0x00 or 0x20 (' '),
+// as these values were observed to cause decoding problems.
 #define FIX_FOR_SUMATRA
 
 //Workaround for Adobe being confused by carriage return
+// Avoid using byte value 0x0D in character codes except when
+// representing an actual carriage return character.
 #define FIX_FOR_ADOBE
 
 using System;
@@ -61,7 +65,7 @@ namespace PdfLib.Compose.Font
     ///    most unicode characters, I'd think.
     ///    
     /// On encoding of symbolic fonts
-    /// The symbolic font must either be a built in font or a true type font with a 1 0 cmap table
+    /// The symbolic font must either be a built-in font or a true-type font with a 1 0 cmap table
 	/// The font is then created with a 3 0 cmap table. Since it is symbolic, I don't think it matters
 	/// for PDF. (This does mean that this impl. won't edit symbolic fonts itself created, but changing
     /// it to support the 3 0 cmap table should be fairly trivial. I just don't want to bother with all
@@ -71,7 +75,7 @@ namespace PdfLib.Compose.Font
     ///    not conform to any particular character encoding, which is the point of symbolic
     ///    fonts. As opposed to 3 1 which has to conform to unicode.
     ///    
-    /// Termionology
+    /// Terminology
     ///  - Raw character code:
     ///    This is the value the character will have in the strings supplied to
     ///    Tj text commands. For CID fonts, we are free to select the values of
@@ -91,7 +95,7 @@ namespace PdfLib.Compose.Font
     ///  Fetching a glyph
     ///  - There's three stratergies for getting a glyph, depending on the font.
     ///    Note, this is from the perspective of the "reader", so in particular
-    ///    for non-cid fonts, implemetation details may differ.
+    ///    for non-cid fonts, implemetation details may differ from reader to reader.
     ///    Also, this is for fonts created by cTTFont, other sofware may do things
     ///    differently.
     ///  - Non-CID:
@@ -1058,7 +1062,7 @@ namespace PdfLib.Compose.Font
             }
         }
 
-        internal override void DissmissRender()
+        internal override void DismissRender()
         {
             _is_rendering = false;
             //throw new NotImplementedException();
