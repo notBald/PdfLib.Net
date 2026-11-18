@@ -564,9 +564,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Img\Internal\QWU\LICENSE.txt" />
+    <EmbeddedResource Include="Licences.txt" />
     <Content Include="Pdf\ColorSpace\Missing.txt" />
     <Content Include="Pdf\Font\Notes.txt" />
-    <Content Include="Readme.txt" />
+    <None Include="Readme.txt" />
     <Content Include="Render\PatternNotes.txt" />
     <EmbeddedResource Include="Res\Cmap\90ms-RKSJ-H" />
     <EmbeddedResource Include="Res\Cmap\Adobe-Japan1-2" />
@@ -584,6 +585,14 @@
     <EmbeddedResource Include="Res\Font\ISOAdobe.txt" />
     <EmbeddedResource Include="Res\Font\glyphlist.txt" />
     <EmbeddedResource Include="Res\Font\SIDNames.txt" />
+    <EmbeddedResource Include="Res\Font\AFM\TeXGyreHerosCn-Bold.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\TeXGyreHerosCn-BoldItalic.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\TeXGyreHerosCn-Italic.afm" />
+    <EmbeddedResource Include="Res\Font\AFM\TeXGyreHerosCn-Regular.afm" />
+    <EmbeddedResource Include="Res\Font\otf\texgyreheroscn-bold.otf" />
+    <EmbeddedResource Include="Res\Font\otf\texgyreheroscn-bolditalic.otf" />
+    <EmbeddedResource Include="Res\Font\otf\texgyreheroscn-italic.otf" />
+    <EmbeddedResource Include="Res\Font\otf\texgyreheroscn-regular.otf" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Res\LogText.resx">

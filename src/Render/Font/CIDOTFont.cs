@@ -51,8 +51,8 @@ namespace PdfLib.Render.Font
 
         #region Init
 
-        internal CIDOTFont(CIDFontType2 font, bool vertical, IFontFactory<Path> factory)
-            : base(font, factory)
+        internal CIDOTFont(CIDFontType2 font, bool vertical, IFontFactory<Path> factory, Stream file = null)
+            : base(font, factory, file)
         {
             _vertical = vertical;
             _w = font.W;

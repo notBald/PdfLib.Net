@@ -59,12 +59,12 @@ namespace PdfLib.Render.Font
             }
 
             //First check if the font exists as a embeded resource.
-            var gn = afm.GhostName;
-            Stream cff = PdfLib.Res.StrRes.GetBinResource(string.Format("Font.cff.{0}.cff", gn));
-            if (cff == null && File.Exists(string.Format("fonts\\{0}.cff", gn)))
+            var gn = afm.ResourceFont;
+            Stream cff = PdfLib.Res.StrRes.GetBinResource(gn.ResURL);
+            if (cff == null && File.Exists(gn.DiskURL))
             {
                 //Next we look into the "font" folder in the executing directory
-                cff = new MemoryStream(File.ReadAllBytes(string.Format("fonts\\{0}.cff", gn)));
+                cff = new MemoryStream(File.ReadAllBytes(gn.DiskURL));
             }
             if (cff == null)
             {
@@ -84,7 +84,11 @@ namespace PdfLib.Render.Font
             if (fd == null)
                 fd = afm.CreateFontDescriptor();
 
-            return new Type1CFont<Path>(widths, fd, font.Encoding, this, cff, true);
+            if (gn.ResourceType == "cff")
+                return new Type1CFont<Path>(widths, fd, font.Encoding, this, cff, true);
+            else
+                //All otf files are cff, for now.
+                return new CFFOTFont<Path>(widths, font, this, cff);
         }
 
         rFont IFontFactory.CreateBuiltInFont(PdfType0Font font, AdobeFontMetrixs afm, bool substituted)
@@ -107,12 +111,12 @@ namespace PdfLib.Render.Font
             }
 
             //First check if the font exists as a embeded resource.
-            var gn = afm.GhostName;
-            Stream cff = PdfLib.Res.StrRes.GetBinResource(string.Format("Font.cff.{0}.cff", gn));
-            if (cff == null && File.Exists(string.Format("fonts\\{0}.cff", gn)))
+            var gn = afm.ResourceFont;
+            Stream cff = PdfLib.Res.StrRes.GetBinResource(gn.ResURL);
+            if (cff == null && File.Exists(gn.DiskURL))
             {
                 //Next we look into the "font" folder in the executing directory
-                cff = new MemoryStream(File.ReadAllBytes(string.Format("fonts\\{0}.cff", gn)));
+                cff = new MemoryStream(File.ReadAllBytes(gn.DiskURL));
             }
             if (cff == null || afm.PreferTrueType)
             {
@@ -129,7 +133,10 @@ namespace PdfLib.Render.Font
             if (cff == null)
                 throw new NotImplementedException();
 
-            return new CIDT1CFont<Path>((CIDFontType2)font.DescendantFonts, this, font.Encoding.WMode, cff);
+            if (gn.ResourceType == "cff")
+                return new CIDT1CFont<Path>((CIDFontType2)font.DescendantFonts, this, font.Encoding.WMode, cff);
+            else
+                return new CIDOTFont<Path>((CIDFontType2)font.DescendantFonts, font.Encoding.WMode, this, cff);
         }
 
         /// <summary>

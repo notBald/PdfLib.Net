@@ -1,12 +1,15 @@
 ﻿#define INCLUDE_BBOX
+using PdfLib.Img;
 using PdfLib.Pdf.Internal;
 using PdfLib.Pdf.Primitives;
 using PdfLib.Res;
 using PdfLib.Util;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Web;
 
 namespace PdfLib.Pdf.Font
 {
@@ -19,7 +22,7 @@ namespace PdfLib.Pdf.Font
         static WeakCache<string, AdobeFontMetrixs> _cache = new WeakCache<string, AdobeFontMetrixs>(0);
 
         private string _fontname;
-        private bool _bold, _italic, _symbolic, _fixed_pitch;
+        private bool _bold, _italic, _symbolic, _fixed_pitch, _narrow;
         private xRect _fbbox;
 
         private double _ascender, _descender, _underline_position, _underline_thickness, _italic_angle;
@@ -97,7 +100,7 @@ namespace PdfLib.Pdf.Font
         /// <summary>
         /// The ghost script name of this font, if any.
         /// </summary>
-        public string GhostName
+        public AFMEmbededFontResource ResourceFont
         {
             get
             {
@@ -128,22 +131,26 @@ namespace PdfLib.Pdf.Font
             //+---------------+------------------------+
                 switch (FontName)
                 {
-                    case "Courier": return "NimbusMonL-Regu";
-                    case "Courier-Bold": return "NimbusMonL-Bold";
-                    case "Courier-Italic": return "NimbusMonL-ReguObli";
-                    case "Courier-BoldOblique": return "NimbusMonL-BoldObli";
-                    case "Helvetica": return "NimbusSanL-Regu";
-                    case "Helvetica-Bold": return "NimbusSanL-Bold";
-                    case "Helvetica-Oblique": return "NimbusSanL-ReguItal";
-                    case "Helvetica-BoldOblique": return "NimbusSanL-BoldItal";
+                    case "Courier": return new AFMEmbededFontResource("NimbusMonL-Regu", "cff");
+                    case "Courier-Bold": return new AFMEmbededFontResource("NimbusMonL-Bold", "cff");
+                    case "Courier-Italic": return new AFMEmbededFontResource("NimbusMonL-ReguObli", "cff");
+                    case "Courier-BoldOblique": return new AFMEmbededFontResource("NimbusMonL-BoldObli", "cff");
+                    case "Helvetica": return new AFMEmbededFontResource("NimbusSanL-Regu", "cff");
+                    case "Helvetica-Bold": return new AFMEmbededFontResource("NimbusSanL-Bold", "cff");
+                    case "Helvetica-Oblique": return new AFMEmbededFontResource("NimbusSanL-ReguItal", "cff");
+                    case "Helvetica-BoldOblique": return new AFMEmbededFontResource("NimbusSanL-BoldItal", "cff");
                     case "Times-Roman":
-                    case "Times": return "NimbusRomNo9L-Regu";
-                    case "Times-Bold": return "NimbusRomNo9L-Medi";
-                    case "Times-Italic": return "NimbusRomNo9L-ReguItal";
-                    case "Times-BoldItalic": return "NimbusRomNo9L-MediItal";
-                    case "Symbol": return "StandardSymL";
-                    case "ZapfDingbats": return "Dingbats";
-                    default: return "";
+                    case "Times": return new AFMEmbededFontResource("NimbusRomNo9L-Regu", "cff");
+                    case "Times-Bold": return new AFMEmbededFontResource("NimbusRomNo9L-Medi", "cff");
+                    case "Times-Italic": return new AFMEmbededFontResource("NimbusRomNo9L-ReguItal", "cff");
+                    case "Times-BoldItalic": return new AFMEmbededFontResource("NimbusRomNo9L-MediItal", "cff");
+                    case "Symbol": return new AFMEmbededFontResource("StandardSymL", "cff");
+                    case "ZapfDingbats": return new AFMEmbededFontResource("Dingbats", "cff");
+                    case "TeXGyreHerosCn-Regular": return new AFMEmbededFontResource("texgyreheroscn-regular", "otf");
+                    case "TeXGyreHerosCn-Bold": return new AFMEmbededFontResource("texgyreheroscn-bold", "otf");
+                    case "TeXGyreHerosCn-BoldItalic": return new AFMEmbededFontResource("texgyreheroscn-bolditalic", "otf");
+                    case "TeXGyreHerosCn-Italic": return new AFMEmbededFontResource("texgyreheroscn-italic", "otf");
+                    default: return null;
                 }
             }
         }
@@ -162,6 +169,8 @@ namespace PdfLib.Pdf.Font
         /// Only relevant for symbolic fonts.
         /// </summary>
         public int[] XrefTable { get { return _xref; } }
+
+        public bool Narrow { get { return _narrow; } }
 
         public bool Bold { get { return _bold; } }
 
@@ -292,7 +301,7 @@ namespace PdfLib.Pdf.Font
                     AFMGlyphInfo glyph;
                     if (_glyfs.TryGetValue(name, out glyph))
                     {
-                        int width = (int)(w[c] * 1000);
+                        float width = (float)(w[c] * 1000);
                         glyph.width = width;
                     }
                 }
@@ -333,24 +342,25 @@ namespace PdfLib.Pdf.Font
             return fd;
         }
 
-        internal static string SaneFontName(string font_name, out bool bold, out bool italic)
+        internal static string SaneFontName(string font_name, out bool bold, out bool italic, out bool narrow)
         {
             if (font_name == null)
             {
-                bold = italic = false;
+                bold = italic = narrow = false;
                 return null;
             }
             font_name = RmovePSMT(font_name).Replace(" ", "").ToLower();
             int i = font_name.IndexOfAny(new char[] { ',', '-' });
             if (i == -1)
             {
-                bold = italic = false;
+                bold = italic = narrow = false;
                 return font_name;
             }
             var style = font_name.Substring(i);
             font_name = font_name.Substring(0, i);
             bold = style.IndexOf("bold") != -1;
             italic = style.IndexOf("italic") != -1 || style.IndexOf("oblique") != -1;
+            narrow = style.IndexOf("narrow") != -1 || style.IndexOf("compressed") != -1 || style.IndexOf("condensed") != -1;
             return font_name;
         }
 
@@ -381,12 +391,14 @@ namespace PdfLib.Pdf.Font
                 if (fd.IsMonospaced)
                     substitute_sugestion = "Courier";
                 string style = "";
-                bool bold, italic;
-                SaneFontName(fd.FontName, out bold, out italic);
+                bool bold, italic, narrow;
+                SaneFontName(fd.FontName, out bold, out italic, out narrow);
                 if (fd.IsBold || bold)
                     style = "Bold"; 
                 if (fd.IsItalic || italic)
                     style += "Italic";
+                if(narrow)
+                    style += "Narrow";
                 if (style != "")
                     substitute_sugestion += "-" + style;
 
@@ -396,13 +408,14 @@ namespace PdfLib.Pdf.Font
                 afm._bold = bold || fd.IsBold;
                 afm._cap_height = fd.CapHeight;
                 afm._italic_angle = fd.ItalicAngle;
+                afm._narrow = narrow;
 
                 return afm;
             }
             else
             {
                 var afm = Create("Helvetica", enc, true);
-                SaneFontName(name, out afm._bold, out afm._italic);
+                SaneFontName(name, out afm._bold, out afm._italic, out afm._narrow);
                 return afm;
             }
         }
@@ -432,7 +445,7 @@ namespace PdfLib.Pdf.Font
 
             var chunks = name.Split(new char[] { ',', '-' }, StringSplitOptions.RemoveEmptyEntries);
 
-            bool bold = false, italic = false, oblique = false;
+            bool bold = false, italic = false, oblique = false, narrow = false;
             int cc = 0;
             for (int c = 1; c < chunks.Length; c++)
             {
@@ -453,12 +466,12 @@ namespace PdfLib.Pdf.Font
                     oblique = true;
                     concat = false;
                 }
-                /*if (cur.Contains("narrow"))
+                if (cur.Contains("narrow"))
                 {
                     perfect_fit = false;
-                    oblique = true;
+                    narrow = true;
                     concat = false;
-                }*/
+                }
                 if (concat) cc++;
             }
             name = chunks[0];
@@ -467,7 +480,7 @@ namespace PdfLib.Pdf.Font
             if (oblique && bold)
                 perfect_fit = false;
 
-            return new AFMFont(name, italic, bold, oblique, perfect_fit);
+            return new AFMFont(name, italic, bold, oblique, narrow, perfect_fit);
         }
 
         /// <summary>
@@ -573,6 +586,18 @@ namespace PdfLib.Pdf.Font
             switch (fnt.Name)
             {
                 case "helvetica":
+                    if (fnt.Narrow)
+                    {
+                        if (fnt.Italic || fnt.Oblique)
+                        {
+                            if (fnt.Bold)
+                                return CreateImpl("Font.AFM.TeXGyreHerosCn-BoldItalic.afm", null, enc, "Arial", false, fnt.PreferTrueType);
+                            return CreateImpl("Font.AFM.TeXGyreHerosCn-Italic.afm", null, enc, "Arial", false, fnt.PreferTrueType);
+                        }
+                        if (fnt.Bold)
+                            return CreateImpl("Font.AFM.TeXGyreHerosCn-Bold.afm", null, enc, "Arial", false, fnt.PreferTrueType);
+                        return CreateImpl("Font.AFM.TeXGyreHerosCn-Regular.afm", null, enc, "Arial", false, fnt.PreferTrueType);
+                    }
                     if (fnt.Italic || fnt.Oblique)
                     {
                         if (fnt.Bold)
@@ -739,7 +764,7 @@ namespace PdfLib.Pdf.Font
                                     var glyf = new AFMGlyphInfo();
                                     if (line[0] == "C")
                                         int.TryParse(line[1], out glyf.charcode);
-                                    glyf.width = int.Parse(line[4]);
+                                    glyf.width = float.Parse(line[4], CultureInfo.InvariantCulture);
 #if INCLUDE_BBOX
                                     glyf.llx = int.Parse(line[10]);
                                     glyf.lly = int.Parse(line[11]);
@@ -849,7 +874,7 @@ namespace PdfLib.Pdf.Font
         /// <summary>
         /// Total width, including whitespace
         /// </summary>
-        public int width;
+        public float width;
 
         public int charcode;
 
@@ -881,18 +906,34 @@ namespace PdfLib.Pdf.Font
 #endif
     }
 
+    [System.Diagnostics.DebuggerDisplay("{ResourceName}")]
+    public class AFMEmbededFontResource
+    {
+        public readonly string ResourceName;
+        public readonly string ResourceType;
+
+        public string ResURL { get { return string.Format("Font.{0}.{1}.{0}", ResourceType, ResourceName); } }
+        public string DiskURL { get { return string.Format("fonts\\{1}.{0}", ResourceType, ResourceName); } }
+
+        internal AFMEmbededFontResource(string resourceName, string type) 
+        { 
+            ResourceName = resourceName;
+            ResourceType = type;
+        }
+    }
+
     internal class AFMFont
     {
         public string Name;
         public readonly bool Italic, Oblique;
-        public readonly bool Bold;
+        public readonly bool Bold, Narrow;
 
         /// <summary>
         /// When false, the built in font isn't an excact match.
         /// </summary>
         public bool PerfectFit, PreferTrueType;
-        public AFMFont(string name, bool i, bool b, bool o, bool bf)
-        { Name = name; Italic = i; Bold = b; Oblique = o; PerfectFit = bf; }
+        public AFMFont(string name, bool i, bool b, bool o, bool n, bool bf)
+        { Name = name; Italic = i; Bold = b; Oblique = o; Narrow = n; PerfectFit = bf; }
 
         /// <summary>
         /// Name of the resource that contains the AFM data for this font, null if no built in font exists

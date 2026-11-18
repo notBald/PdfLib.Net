@@ -85,13 +85,14 @@ namespace PdfLib.Render.Font
 
         #region Init
 
-        internal CFFOTFont(double[] widths, PdfType1Font font, IFontFactory<Path> factory)
+        internal CFFOTFont(double[] widths, PdfType1Font font, IFontFactory<Path> factory, Stream font_file = null)
             : base (widths)
         {
             _factory = factory;
 
             var fd = font.FontDescriptor;
-            var font_file = new MemoryStream(fd.FontFile2.DecodedStream);
+            if (font_file == null)
+                font_file = new MemoryStream(fd.FontFile2.DecodedStream);
 
             //The first of the tables is the font table directory, 
             //a special table that facilitates access to the other tables in the font. 
@@ -101,7 +102,19 @@ namespace PdfLib.Render.Font
                 _map = FetchCmap(true, null);
             else
                 _map = FetchCmap(false, font.Encoding);
-            _cfont = new CFont<Path>(new StreamReaderEx(_td.GetTableData(Tag.CFF, true)), true, out _create_sg, factory.GlyphRenderer());
+
+            // Note the "false" for use_encoding.
+            //
+            // For OpenType/CFF fonts, the OpenType cmap maps character codes
+            // directly to glyph IDs. The CFF charset/encoding tables are not
+            // consulted for normal text rendering.
+            //
+            // If an OTF font were encountered without a cmap, a fallback could
+            // theoretically be implemented using the CFF charset/encoding data,
+            // glyph names, and Adobe Glyph List mappings. However, such a font
+            // would be invalid or at least unusable for normal OpenType text
+            // rendering, and is therefore not currently supported.
+            _cfont = new CFont<Path>(new StreamReaderEx(_td.GetTableData(Tag.CFF, true)), false, out _create_sg, factory.GlyphRenderer());
 
             _hmtx = _td.Hmtx;
             _units_per_em = (double)_td.Head.UnitsPerEm;
@@ -119,20 +132,21 @@ namespace PdfLib.Render.Font
             _td = td;
             _map = FetchCmap(symbolic, enc);
 
-            _cfont = new CFont<Path>(new StreamReaderEx(_td.GetTableData(Tag.CFF, true)), true, out _create_sg, factory.GlyphRenderer());
+            _cfont = new CFont<Path>(new StreamReaderEx(_td.GetTableData(Tag.CFF, true)), false, out _create_sg, factory.GlyphRenderer());
 
             _hmtx = _td.Hmtx;
             _units_per_em = (double)_td.Head.UnitsPerEm;
 
         }
 
-        protected CFFOTFont(CIDFontType2 font, IFontFactory<Path> factory)
+        protected CFFOTFont(CIDFontType2 font, IFontFactory<Path> factory, Stream font_file)
             : base(null)
         {
             _factory = factory;
 
             var fd = font.FontDescriptor;
-            var font_file = new MemoryStream(font.FontDescriptor.FontFile2.DecodedStream);
+            if (font_file == null)
+                font_file = new MemoryStream(font.FontDescriptor.FontFile2.DecodedStream);
             if (!font_file.CanRead || !font_file.CanSeek)
                 throw new Exception();
             _td = new TableDirectory(font_file);
@@ -225,7 +239,7 @@ namespace PdfLib.Render.Font
                     //
                     //Not sure if this is a good idea though
                     double scale_factor_w = width / advance;
-                    Debug.Assert(scale_factor_w < 1.01 && scale_factor_w > 0.99, "Just testing scaling in TTFont.RenderGlyph");
+                    //Debug.Assert(scale_factor_w < 1.01 && scale_factor_w > 0.99, "Just testing scaling in TTFont.RenderGlyph");
                     st = st.ScalePrepend(scale_factor_w, 1);
                 }
                 else

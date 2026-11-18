@@ -219,7 +219,7 @@ namespace PdfLib.Compose.Font
                     rf.Dispose();
 
                 var widths = _meassure.GetWidths(0, 255, IsSymbolic ? null : Enc.WinANSI);
-                _wrapper.RenderFont = factory.CreateBuiltInFont(new PdfType1Font(_wrapper.Elements), widths, _meassure.AFM, _meassure.AFM.GhostName == "");
+                _wrapper.RenderFont = factory.CreateBuiltInFont(new PdfType1Font(_wrapper.Elements), widths, _meassure.AFM, _meassure.AFM.ResourceFont == null);
             }
         }
 

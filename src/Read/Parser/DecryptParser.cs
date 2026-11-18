@@ -342,8 +342,40 @@ namespace PdfLib.Read.Parser
                     length = l.GetInteger();
 
                 var range = _lex.GetStreamRange(length);
-                SetNextKeyword(PdfKeyword.EndStream);
 
+                //Should this error checking be done here? An alternative to this is to throw a PdfStreamCorruptException
+                //In that case, the trailer will find the end of the stream and register the object. As long as the user
+                //does not flush the cache, it will work.
+                try
+                {
+                    SetNextKeyword(PdfKeyword.EndStream);
+                }
+                catch (PdfErrException ee)
+                {
+                    bool handled = false;
+
+                    if (ee is PdfParseException || ee is PdfLexerException)
+                    {
+                        //Looks for the endstrean keyword in a range of +/- 1000 bytes.
+                        byte[] search = new byte[2000];
+                        _lex.Read(search, range.Start + Math.Max(0, range.Length - 1000), search.Length);
+                        string txt = Lexer.GetString(search);
+                        int idx = txt.IndexOf("endstream");
+                        if (idx != -1)
+                        {
+                            long real_length = Math.Max(0, range.Length - 1000) + idx;
+                            cat["Length"] = new PdfInt((int)real_length);
+                            range = new rRange(range.Start, (int)real_length);
+                            _lex.Position = range.Start + real_length;
+                            SetNextKeyword(PdfKeyword.EndStream);
+
+                            handled = true;
+                        }
+                    }
+
+                    if (!handled)
+                        throw ee;
+                }
 
                 if (_tracker != null)
                     return new PdfStream(cat, _sech != null ? _sech.CreateDecryptWrapper(_owner) : _owner, range, _tracker);

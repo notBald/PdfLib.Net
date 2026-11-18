@@ -104,8 +104,42 @@ and that this paragraph is not modified.
 Adobe Systems has no responsibility or obligation to support the use of the AFM files.
 
 
-========================================================================
-CFF fonts in the Res/Font/cff directory:
+% This is version 1.0, dated 22 June 2009, of the GUST Font License.
+% (GUST is the Polish TeX Users Group, https://www.gust.org.pl)
+%
+% For the most recent version of this license see
+% https://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt
+% or
+% https://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt
+%
+% This work may be distributed and/or modified under the conditions
+% of the LaTeX Project Public License, either version 1.3c of this
+% license or (at your option) any later version.
+% 
+% Please also observe the following clause:
+% 1) it is requested, but not legally required, that derived works be
+%    distributed only after changing the names of the fonts comprising this
+%    work and given in an accompanying "manifest", and that the
+%    files comprising the Work, as listed in the manifest, also be given
+%    new names. Any exceptions to this request are also given in the
+%    manifest.
+%    
+%    We recommend the manifest be given in a separate file named
+%    MANIFEST-<fontid>.txt, where <fontid> is some unique identification
+%    of the font family. If a separate "readme" file accompanies the Work, 
+%    we recommend a name of the form README-<fontid>.txt.
+%
+% The latest version of the LaTeX Project Public License is in
+% https://www.latex-project.org/lppl.txt and version 1.3c or later
+% is part of all distributions of LaTeX version 2006/05/20 or later.
+
+################################################################################
+#  END: AFM files in the "Res/Font/AFM directory"
+################################################################################
+
+################################################################################
+# CFF files in the "Res/Font/cff directory"
+################################################################################
 
 Copyright 2016 by (URW)++ Design & Development.
 
@@ -201,7 +235,44 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
 ################################################################################
-# END: AFM files in the "Res/Font/AFM directory"
+# END: CFF files in the "Res/Font/cff directory"
+################################################################################
+
+################################################################################
+# OTF files in the "Res/Font/otf directory"
+################################################################################
+
+% This is version 1.0, dated 22 June 2009, of the GUST Font License.
+% (GUST is the Polish TeX Users Group, https://www.gust.org.pl)
+%
+% For the most recent version of this license see
+% https://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt
+% or
+% https://tug.org/fonts/licenses/GUST-FONT-LICENSE.txt
+%
+% This work may be distributed and/or modified under the conditions
+% of the LaTeX Project Public License, either version 1.3c of this
+% license or (at your option) any later version.
+% 
+% Please also observe the following clause:
+% 1) it is requested, but not legally required, that derived works be
+%    distributed only after changing the names of the fonts comprising this
+%    work and given in an accompanying "manifest", and that the
+%    files comprising the Work, as listed in the manifest, also be given
+%    new names. Any exceptions to this request are also given in the
+%    manifest.
+%    
+%    We recommend the manifest be given in a separate file named
+%    MANIFEST-<fontid>.txt, where <fontid> is some unique identification
+%    of the font family. If a separate "readme" file accompanies the Work, 
+%    we recommend a name of the form README-<fontid>.txt.
+%
+% The latest version of the LaTeX Project Public License is in
+% https://www.latex-project.org/lppl.txt and version 1.3c or later
+% is part of all distributions of LaTeX version 2006/05/20 or later.
+
+################################################################################
+# END: OTF files in the "Res/Font/otf directory"
 ################################################################################
 
 
@@ -1012,7 +1083,7 @@ EXHIBIT A -Mozilla Public License.
 
 The MIT License (MIT)
 
-Copyright (c) 2014-2019 Jérémy Ansel
+Copyright (c) 2014-2019 J r my Ansel
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

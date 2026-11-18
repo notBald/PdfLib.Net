@@ -165,7 +165,7 @@ namespace PdfLib.Read.Parser
         /// <summary>
         /// Reads an item from the stream
         /// </summary>
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
         public PdfItem ReadItem() 
         { 
             return ReadObjImpl(SetNextToken()); 
@@ -603,23 +603,31 @@ namespace PdfLib.Read.Parser
                 {
                     SetNextKeyword(PdfKeyword.EndStream);
                 }
-                catch (PdfParseException pe)
+                catch (PdfErrException ee)
                 {
-                    //Looks for the endstrean keyword in a range of +/- 1000 bytes.
-                    byte[] search = new byte[2000];
-                    _lex.Read(search, range.Start + Math.Max(0, range.Length - 1000), search.Length);
-                    string txt = Lexer.GetString(search);
-                    int idx = txt.IndexOf("endstream");
-                    if (idx != -1)
+                    bool handled = false;
+
+                    if (ee is PdfParseException || ee is PdfLexerException)
                     {
-                        long real_length = Math.Max(0, range.Length - 1000) + idx;
-                        cat["Length"] = new PdfInt((int) real_length);
-                        range = new rRange(range.Start, (int) real_length);
-                        _lex.Position = range.Start + real_length;
-                        SetNextKeyword(PdfKeyword.EndStream);
+                        //Looks for the endstrean keyword in a range of +/- 1000 bytes.
+                        byte[] search = new byte[2000];
+                        _lex.Read(search, range.Start + Math.Max(0, range.Length - 1000), search.Length);
+                        string txt = Lexer.GetString(search);
+                        int idx = txt.IndexOf("endstream");
+                        if (idx != -1)
+                        {
+                            long real_length = Math.Max(0, range.Length - 1000) + idx;
+                            cat["Length"] = new PdfInt((int)real_length);
+                            range = new rRange(range.Start, (int)real_length);
+                            _lex.Position = range.Start + real_length;
+                            SetNextKeyword(PdfKeyword.EndStream);
+
+                            handled = true;
+                        }                           
                     }
-                    else
-                        throw pe;
+
+                    if (!handled)
+                        throw ee;
                 }
 
                 if (_tracker != null)

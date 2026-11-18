@@ -424,14 +424,14 @@ namespace PdfLib.Compose
     /// </summary>
     public class chBox
     {
-        public readonly int _Width, _XMin, _XMax, _YMin, _YMax;
-        public readonly float UnitsPerEm;
+        public readonly int _XMin, _XMax, _YMin, _YMax;
+        public readonly float UnitsPerEm, _Width;
         public float Width { get { return _Width / UnitsPerEm; } }
         public float XMin { get { return _XMin / UnitsPerEm; } }
         public float XMax { get { return _XMax / UnitsPerEm; } }
         public float YMin { get { return _YMin / UnitsPerEm; } }
         public float YMax { get { return _YMax / UnitsPerEm; } }
-        public chBox(int units_per_em, int width, int xmin, int ymin, int xmax, int ymax)
+        public chBox(int units_per_em, float width, int xmin, int ymin, int xmax, int ymax)
         { UnitsPerEm = units_per_em; _Width = width; _XMin = xmin; _YMin = ymin; _XMax = xmax; _YMax = ymax; }
     }
 
@@ -442,7 +442,8 @@ namespace PdfLib.Compose
         /// </summary>
         private readonly int _units_per_em;
 
-        private readonly int _width, _lsb, _rsb, _ymax, _ymin;
+        private readonly int _lsb, _ymax, _ymin;
+        private readonly float _width, _rsb;
 
         /// <summary>
         /// The glyph id of this glyph
@@ -472,7 +473,7 @@ namespace PdfLib.Compose
         public double YMax { get { return _ymax / (double) _units_per_em; } }
         public double YMin { get { return _ymin / (double) _units_per_em; } }
 
-        internal chGlyph(int gid, int units_per_em, int w, int YMin, int YMax, int lsb, int rsb)
+        internal chGlyph(int gid, int units_per_em, float w, int YMin, int YMax, int lsb, float rsb)
         { GID = gid; _units_per_em = units_per_em; _width = w; _ymin = YMin; _ymax = YMax; _lsb = lsb; _rsb = rsb; }
         internal chGlyph(int gid, chGlyph g)
             : this(gid, g._units_per_em, g._width, g._ymin, g._ymax, g._lsb, g._rsb)

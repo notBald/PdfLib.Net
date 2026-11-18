@@ -332,7 +332,7 @@ namespace PdfLib.Read
         /// Looks for the next token in the stream.
         /// </summary>
         /// <returns>The type of token that was found</returns>
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
         public PdfType SetNextToken()
         {
         Redo:

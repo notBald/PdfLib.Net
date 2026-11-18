@@ -176,6 +176,7 @@ namespace PdfLib.Pdf.Font
                         if (w == null)
                             w = afm.GetWidths(FirstChar, LastChar + 1, (fd != null) ? fd.MissingWidth : 0);
 
+                        //Todo: Log this
                         Debug.WriteLine("Substituted " + BaseFont + " with " + afm.FontName);
                         font = factory.CreateBuiltInFont(this, w, afm, true);
                     }
