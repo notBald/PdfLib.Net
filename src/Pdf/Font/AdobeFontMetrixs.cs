@@ -358,7 +358,11 @@ namespace PdfLib.Pdf.Font
             }
             var style = font_name.Substring(i);
             font_name = font_name.Substring(0, i);
-            bold = style.IndexOf("bold") != -1;
+
+            // "Compressed" faces are often both narrower and visually heavier.
+            // Adobe Reader, Firefox PDF.js and real Helvetica-Compressed specimens
+            // are matched more closely by TeXGyreHerosCn-Bold than by the regular font.
+            bold = style.IndexOf("bold") != -1 || style.IndexOf("compressed") != -1;
             italic = style.IndexOf("italic") != -1 || style.IndexOf("oblique") != -1;
             narrow = style.IndexOf("narrow") != -1 || style.IndexOf("compressed") != -1 || style.IndexOf("condensed") != -1;
             return font_name;
