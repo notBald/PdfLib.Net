@@ -482,6 +482,10 @@ namespace PdfLib.Pdf.ColorSpace
                       -193.58209356861505) +
                   K * (-22.33816807309886 * K - 180.12613974708367)) / 255;
 
+                //Clips the values to the range 0-1
+                r = Range(r);
+                g = Range(g);
+                b = Range(b);
 #else
                 double r = Range(1 - (C * (1 - K) + K));
                 double g = Range(1 - (M * (1 - K) + K));
