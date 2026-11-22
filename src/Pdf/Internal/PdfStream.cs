@@ -559,7 +559,19 @@ namespace PdfLib.Pdf.Internal
 
                 case PdfType.FunctionArray:
                     if (msg == IntMsg.Special)
-                        return new PdfFunctionArray(PdfFunction.Create(stream), true);
+                    {                        
+                        if (stream.HasReference)
+                        {
+                            //This is the reference pointing at the stream. We transform the object it points at into the Pdf Function object.
+                            var r = ((IKRef)stream).Reference;
+                            r.ToType(PdfType.Function, msg, null);
+
+                            return new PdfFunctionArray(r, true);
+                        }
+
+                        //Stream objects must always be saved as a reference. So we simply create a temp reference. The save function will figure out the rest.                        
+                        return new PdfFunctionArray(new TempReference(PdfFunction.Create(stream)), true);
+                    }
                     goto default;
 
                 case PdfType.Shading:
