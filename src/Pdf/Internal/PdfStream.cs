@@ -560,13 +560,14 @@ namespace PdfLib.Pdf.Internal
                 case PdfType.FunctionArray:
                     if (msg == IntMsg.Special)
                     {                        
-                        if (stream.HasReference)
+                        if (stream.HasReference && ((IKRef)stream).Reference.Tracker != null)
                         {
-                            //This is the reference pointing at the stream. We transform the object it points at into the Pdf Function object.
-                            var r = ((IKRef)stream).Reference;
-                            r.ToType(PdfType.Function, msg, null);
+                            //This is a "Writable document." It might be saved as it is, so it is best we keep
+                            //the structure in order.
+                            var wr = ((IKRef)stream).Reference.Tracker.CreateWRef(PdfFunction.Create(stream));
+                            return new PdfFunctionArray(wr, true);
 
-                            return new PdfFunctionArray(r, true);
+                            //Note that ((IKRef)stream).Reference will be retargeted to the object we just returned by the caller. 
                         }
 
                         //Stream objects must always be saved as a reference. So we simply create a temp reference. The save function will figure out the rest.                        
